@@ -1,0 +1,27 @@
+
+0.- respuesta esperada 36 programa 36
+ success
+
+1.- respuesta esperada 36 programa 36
+ success
+
+2.- respuesta esperada 36 programa 36
+ success
+
+3.- respuesta esperada 0 programa 0
+ success
+
+4.- respuesta esperada 0 programa 0
+ success
+
+5.- respuesta esperada 0 programa 0
+ success
+
+6.- respuesta esperada 1 programa 1
+ success
+
+7.- respuesta esperada 1 programa 1
+ success
+
+8.- respuesta esperada 1 programa 1
+ success
