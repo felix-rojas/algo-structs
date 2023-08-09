@@ -7,10 +7,10 @@
 
 #ifndef SORTS_H_
 #define SORTS_H_
-
 template <typename T>
 class Sorts
 {
+
 public:
     void ordenaSeleccion(std::vector<T> &vec)
     {
@@ -19,7 +19,8 @@ public:
             int min = i;
             for (int j = i + 1; j < vec.size(); j++)
             {
-                if (vec.at(j) < vec.at(min)) min = j;
+                if (vec.at(j) < vec.at(min))
+                    min = j;
             }
             std::swap(vec.at(i), vec.at(min));
         }
@@ -37,11 +38,22 @@ public:
             }
         }
     }
-    void ordenaMerge(std::vector<int> &vec) 
+
+    void ordenaMerge(std::vector<int> &vec)
     {
-        
     }
-    int busqSecuencial(std::vector<int>, int item) { return 0; }
+
+    int busqSecuencial(std::vector<int> vec, int item)
+    {
+        for (size_t i = 0; i < vec.size(); i++)
+        {
+            if (item == vec.at(i))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
     int busqBinaria(std::vector<int>, int item) { return 0; }
 };
 
