@@ -102,11 +102,10 @@ public:
         {
             arr[i] = vec.at(i);
         }
-        std::vector<int> vec_copy;
         mergeSort(arr, 0, last);
         for (int i = 0; i <= last; i++)
         {
-            vec[i] = arr[i];
+            vec.at(i) = arr[i];
         }
     }
 
