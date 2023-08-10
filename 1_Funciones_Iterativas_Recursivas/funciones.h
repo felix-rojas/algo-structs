@@ -12,15 +12,11 @@ class Funciones
 public:
     int sumaRecursiva(int number)
     {
-        if (number == 0)
-        {
-            return number;
-        } 
-        else 
-        {
+        if (number == 0) return number;
+        else
             return number + sumaRecursiva(number-1);
-        }
-    };
+    }
+
     int sumaIterativa(int number)
     {
         int res = 0;
@@ -29,9 +25,11 @@ public:
             res += i;
         }
         return res;
-    };
+    }
+
     int sumaDirecta(int number)
     {
+	// statically cast the result to int
         return static_cast<int>(number * (number + 1) * 0.5);
-    };
+    }
 };
