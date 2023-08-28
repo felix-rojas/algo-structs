@@ -29,7 +29,7 @@ public:
 
     int sumaDirecta(int number)
     {
-	// statically cast the result to int
+    // Gauss' arithmetic progression formula
         return static_cast<int>(number * (number + 1) * 0.5);
     }
 };
