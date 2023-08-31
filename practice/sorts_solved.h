@@ -51,26 +51,8 @@ Sorts<T>::bubbleSort (const std::vector<T> &source)
       for (int j = 0; j < i; j++)
         {
           if (v[j] > v[j + 1])
-            swap (v, j, j + 1);
-        }
-    }
-  return v;
-}
-
-template <class T>
-std::vector<T>
-Sorts<T>::insertionSort (const std::vector<T> &source)
-{
-  std::vector<T> v (source);
-  int i, min_pos, j;
-  for (i = 0; i < v.size (); i++)
-    {
-      min_pos = i;
-      for (j = v.size () - 1; j > i; j--)
-        {
-          if (v[j] < v[min_pos])
             {
-              swap (v, j, min_pos);
+              swap (v, j, j + 1);
             }
         }
     }
@@ -82,17 +64,39 @@ std::vector<T>
 Sorts<T>::selectionSort (const std::vector<T> &source)
 {
   std::vector<T> v (source);
-  int i, j, pos_min;
-  for (i = 0; i < v.size () - 1; i++)
+  int pos;
+
+  for (int i = v.size () - 1; i > 0; i--)
     {
-      pos_min = i;
-      for (j = i + 1; j < v.size (); j++)
+      pos = 0;
+      for (int j = 1; j <= i; j++)
         {
-          if (v[j] < v[pos_min])
-            pos_min = j;
+          if (v[j] > v[pos])
+            {
+              pos = j;
+            }
         }
-      if (pos_min != i)
-        swap (v, pos_min, i);
+
+      if (pos != i)
+        {
+          swap (v, i, pos);
+        }
+    }
+  return v;
+}
+
+template <class T>
+std::vector<T>
+Sorts<T>::insertionSort (const std::vector<T> &source)
+{
+  std::vector<T> v (source);
+
+  for (int i = 1; i < v.size (); i++)
+    {
+      for (int j = i; j > 0 && v[j] < v[j - 1]; j--)
+        {
+          swap (v, j, j - 1);
+        }
     }
   return v;
 }
@@ -102,6 +106,19 @@ std::vector<T>
 Sorts<T>::shellSort (const std::vector<T> &source)
 {
   std::vector<T> v (source);
+  int gap = v.size () / 2;
+
+  while (gap > 0)
+    {
+      for (int i = gap; i < v.size (); i++)
+        {
+          for (int j = i; j >= gap && v[j] < v[j - gap]; j -= gap)
+            {
+              swap (v, j, j - gap);
+            }
+        }
+      gap /= 2;
+    }
   return v;
 }
 
@@ -109,6 +126,10 @@ template <class T>
 void
 Sorts<T>::copyArray (std::vector<T> &A, std::vector<T> &B, int low, int high)
 {
+  for (int i = low; i <= high; i++)
+    {
+      A[i] = B[i];
+    }
 }
 
 template <class T>
@@ -116,12 +137,57 @@ void
 Sorts<T>::mergeArray (std::vector<T> &A, std::vector<T> &B, int low, int mid,
                       int high)
 {
+  int i, j, k;
+
+  i = low;
+  j = mid + 1;
+  k = low;
+
+  while (i <= mid && j <= high)
+    {
+      if (A[i] < A[j])
+        {
+          B[k] = A[i];
+          i++;
+        }
+      else
+        {
+          B[k] = A[j];
+          j++;
+        }
+      k++;
+    }
+  if (i > mid)
+    {
+      for (; j <= high; j++)
+        {
+          B[k++] = A[j];
+        }
+    }
+  else
+    {
+      for (; i <= mid; i++)
+        {
+          B[k++] = A[i];
+        }
+    }
 }
 
 template <class T>
 void
 Sorts<T>::mergeSplit (std::vector<T> &A, std::vector<T> &B, int low, int high)
 {
+  int mid;
+
+  if ((high - low) < 1)
+    {
+      return;
+    }
+  mid = (high + low) / 2;
+  mergeSplit (A, B, low, mid);
+  mergeSplit (A, B, mid + 1, high);
+  mergeArray (A, B, low, mid, high);
+  copyArray (A, B, low, high);
 }
 
 template <class T>
@@ -131,6 +197,7 @@ Sorts<T>::mergeSort (const std::vector<T> &source)
   std::vector<T> v (source);
   std::vector<T> tmp (v.size ());
 
+  mergeSplit (v, tmp, 0, v.size () - 1);
   return v;
 }
 
@@ -138,7 +205,6 @@ template <class T>
 std::vector<T>
 Sorts<T>::bucketSort (const std::vector<T> &source)
 {
-  typename std::list<T>::iterator itr;
   std::vector<T> v;
 
   return v;
