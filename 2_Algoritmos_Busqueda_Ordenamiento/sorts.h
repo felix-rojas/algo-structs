@@ -9,44 +9,44 @@
 #define SORTS_H_
 #include <iostream>
 #include <vector>
+using std::vector;
 
 template <typename T> class Sorts {
 private:
-  void merge(T values[], int leftFirst, int leftLast, int rightFirst,
+  void merge(vector<T>&A, vector<T>&B, int leftFirst, int leftLast, int rightFirst,
              int rightLast) {
-    T tempArray[100];
     int index = leftFirst;
     int saveFirst = leftFirst;
     while ((leftFirst <= leftLast) && (rightFirst <= rightLast)) {
-      if (values[leftFirst] < values[rightFirst]) {
-        tempArray[index] = values[leftFirst];
+      if (A[leftFirst] < A[rightFirst]) {
+        B[index] = A[leftFirst];
         leftFirst++;
       } else {
-        tempArray[index] = values[rightFirst];
+        B[index] = A[rightFirst];
         rightFirst++;
       }
       index++;
     }
     while (leftFirst <= leftLast) {
-      tempArray[index] = values[leftFirst];
+      B[index] = A[leftFirst];
       leftFirst++;
       index++;
     }
     while (rightFirst <= rightLast) {
-      tempArray[index] = values[rightFirst];
+      B[index] = A[rightFirst];
       rightFirst++;
       index++;
     }
     for (index = saveFirst; index <= rightLast; index++)
-      values[index] = tempArray[index];
+      A[index] = B[index];
   }
 
-  void mergeSort(T values[], int first, int last) {
+  void mergeSort(vector<T> &A, vector<T> &B, int first, int last) {
     if (first < last) {
       int middle = (first + last) / 2;
-      mergeSort(values, first, middle);
-      mergeSort(values, middle + 1, last);
-      merge(values, first, middle, middle + 1, last);
+      mergeSort(A, B, first, middle);
+      mergeSort(A, B, middle + 1, last);
+      merge(A, B, first, middle, middle + 1, last);
     }
   }
 
@@ -81,12 +81,8 @@ public:
 
   void ordenaMerge(std::vector<int> &vec) {
     const int last = vec.size() - 1;
-    int arr[100]; // arbitrary array size
-    // copy to arr
-    for (int i = 0; i <= last; i++) {
-      arr[i] = vec.at(i);
-    }
-    mergeSort(arr, 0, last);
+    std::vector<T> arr(vec);
+    mergeSort(vec, arr, 0, last);
     for (int i = 0; i <= last; i++) {
       vec.at(i) = arr[i];
     }
