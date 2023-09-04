@@ -13,8 +13,9 @@ using std::vector;
 
 template <typename T> class Sorts {
 private:
-  void merge(vector<T>&A, vector<T>&B, int leftFirst, int leftLast, int rightFirst,
-             int rightLast) {
+  // adapted from p. 605 of Nell Dale's cpp data structures
+  void merge(vector<T> &A, vector<T> &B, int leftFirst, int leftLast,
+             int rightFirst, int rightLast) {
     int index = leftFirst;
     int saveFirst = leftFirst;
     while ((leftFirst <= leftLast) && (rightFirst <= rightLast)) {
@@ -40,7 +41,7 @@ private:
     for (index = saveFirst; index <= rightLast; index++)
       A[index] = B[index];
   }
-
+  // adapted from p. 605 of Nell Dale's cpp data structures
   void mergeSort(vector<T> &A, vector<T> &B, int first, int last) {
     if (first < last) {
       int middle = (first + last) / 2;

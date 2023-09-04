@@ -102,7 +102,11 @@ std::vector<T>
 Sorts<T>::shellSort (const std::vector<T> &source)
 {
   std::vector<T> v (source);
-  return v;
+  // calculate gap
+  int gap = v.size () / 2;
+  for ()
+}
+return v;
 }
 
 template <class T>
