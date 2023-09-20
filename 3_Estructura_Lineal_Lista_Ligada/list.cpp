@@ -100,6 +100,7 @@ template <typename T> void List<T>::insertion(unsigned int index, T value) {
 template <typename T> void List<T>::insertion(T value) {
   if (elements == 0) {
     insertHead(value);
+    return;
   }
   insertTail(value);
   return;
@@ -140,11 +141,13 @@ template <typename T> void List<T>::update(unsigned int index, T value) {
   }
   Node<T> *node = head;
   int count = 0;
-  while (count < index) {
-    index++;
+
+  while (count < index && node->next != nullptr) {
     node = node->next;
+    count++;
   }
   node->value = value;
+  return;
 }
 
 template <typename T> T List<T>::deleteHead() {
@@ -225,7 +228,7 @@ template <typename T> T List<T>::deleteAt(unsigned int index) {
   Node<T> *prev = head;
 
   // Find the element before
-  for (int i = 0; i < index - 1; ++i) {
+  for (int i = 0; i < index; ++i) {
     prev = prev->next;
   }
 
