@@ -8,11 +8,11 @@ public:
   T value;
   DNode<T> *prev;
   DNode<T> *next;
-  DNode(T value);
+  DNode(T value) : value(value), next(nullptr), prev(nullptr) {}
 };
 
 template <typename T> class DList {
-private:
+public:
   int elements;
   void insertHead(T value);
   /**
@@ -35,11 +35,9 @@ private:
    */
   T deleteTail();
 
-public:
   DNode<T> *head;
   DNode<T> *tail;
 
-public:
   /**
    * @brief Inserts a value at the end of the list, similar to append or
    * push_back
@@ -110,9 +108,9 @@ template <class T> std::string DList<T>::toStringForward() {
 
   p = head;
   aux << "[";
-  while (p != 0) {
+  while (p != nullptr) {
     aux << p->value;
-    if (p->next != 0) {
+    if (p->next != nullptr) {
       aux << ", ";
     }
     p = p->next;
@@ -127,9 +125,9 @@ template <class T> std::string DList<T>::toStringBackward() {
 
   p = tail;
   aux << "[";
-  while (p != 0) {
+  while (p != nullptr) {
     aux << p->value;
-    if (p->prev != 0) {
+    if (p->prev != nullptr) {
       aux << ", ";
     }
     p = p->prev;
@@ -176,18 +174,15 @@ template <typename T> void DList<T>::insertTail(T value) {
   elements++;
 }
 
-template <typename T> void DList<T>::insertion(unsigned int index, T value) {
+template <typename T> void DList<T>::insertion(T value) {
   // Check if the index is out of bound
-  if (index < 0 || index > elements)
-    return;
-
   // list has zero elements
-  if (index == 0) {
+  if (elements == 0) {
     insertHead(value);
     return;
   }
   // list has index elements
-  else if (index == elements) {
+  else if (elements != 0) {
     insertTail(value);
     return;
   }
@@ -196,8 +191,8 @@ template <typename T> void DList<T>::insertion(unsigned int index, T value) {
   // from the Head
   DNode<T> *prev = head;
 
-  // Traverse elements until index
-  for (int i = 0; i < index - 1; ++i) {
+  // Traverse elements until tail
+  for (int i = 0; i < elements; ++i) {
     prev = prev->next;
   }
 
@@ -221,14 +216,6 @@ template <typename T> void DList<T>::insertion(unsigned int index, T value) {
   elements++;
 }
 // push_back method for LinkedList
-template <typename T> void DList<T>::insertion(T value) {
-  if (elements == 0) {
-    insertHead(value);
-    return;
-  }
-  insertTail(value);
-  return;
-}
 
 template <typename T> int DList<T>::search(T element) {
   // empty list, lol
@@ -348,7 +335,7 @@ template <typename T> T DList<T>::deleteAt(unsigned int index) {
 
   // Find the element before
   // disjointed from the first element (head)
-  for (int i = 1; i < index; i++) {
+  for (int i = 0; i < index; i++) {
     prev = prev->next;
   }
 

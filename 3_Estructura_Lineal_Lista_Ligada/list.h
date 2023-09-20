@@ -118,9 +118,9 @@ template <class T> std::string List<T>::toString() {
 
   p = head;
   aux << "[";
-  while (p != 0) {
+  while (p != nullptr) {
     aux << p->value;
-    if (p->next != 0) {
+    if (p->next != nullptr) {
       aux << ", ";
     }
     p = p->next;
