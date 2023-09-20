@@ -3,9 +3,9 @@
 
 template <typename T> class Node {
 public:
-  T Value;
-  Node *Next;
-  Node(T value) : Value(value), Next(nullptr) {}
+  T value;
+  Node *next;
+  Node(T value) : value(value), next(nullptr) {}
 };
 
 #endif // NODE_H_

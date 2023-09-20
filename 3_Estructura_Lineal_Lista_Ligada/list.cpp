@@ -25,7 +25,7 @@ template <typename T> void List<T>::insertHead(T value) {
   Node<T> *node = new Node<T>(value);
 
   // New node points at head
-  node->Next = head;
+  node->next = head;
 
   // The new Node is the Head now
   head = node;
@@ -49,7 +49,7 @@ template <typename T> void List<T>::insertTail(T value) {
   // Create a new Node
   Node<T> *node = new Node<T>(value);
   // same as insertHead, this node becomes tail
-  tail->Next = node;
+  tail->next = node;
   tail = node;
   elements++;
 }
@@ -76,20 +76,20 @@ template <typename T> void List<T>::insertion(unsigned int index, T value) {
 
   // Traverse elements until index
   for (int i = 0; i < index - 1; ++i) {
-    prev = prev->Next;
+    prev = prev->next;
   }
 
   // Create the next node which is
   // the element after previous node
-  Node<T> *next = prev->Next;
+  Node<T> *next = prev->next;
 
   // Create a new node
   Node<T> *node = new Node<T>(value);
 
   // Insert new node between
   // the previous node and the next node
-  node->Next = next;
-  prev->Next = node;
+  node->next = next;
+  prev->next = node;
 
   // increase list size
   elements++;
@@ -104,8 +104,8 @@ template <typename T> int List<T>::search(T element) {
   // Iterate through the linked list elements
   // until it finds the selected index
   for (int i = 0; i < elements; ++i) {
-    node = node->Next;
-    if (node->Value == element)
+    node = node->next;
+    if (node->value == element)
       return i;
   }
 
