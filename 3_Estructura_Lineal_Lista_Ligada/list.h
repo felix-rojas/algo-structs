@@ -1,10 +1,9 @@
 #ifndef LIST_H
 #define LIST_H
-/*
- * list.h
- *
- *  Created on: September 19 2023
- *      Author: felix-rojas
+/**
+ * @file list.h
+ * @date September 19 2023
+ * @author: felix-rojas
  */
 
 #include <cstddef>
@@ -12,34 +11,106 @@
 #include <stdexcept>
 #include <string>
 
+/**
+ * @brief Node with templates for a single linked list
+ */
 template <typename T> class Node {
 public:
   T value;
   Node *next;
+  /**
+   * @brief Create a node tha points to nullptr by default with a value
+   * @param value Any data value that can be used in a template
+   */
   Node(T value) : value(value), next(nullptr) {}
 };
 
+/**
+ * @brief Single Linked List data structure with a head and tail
+ */
 template <typename T> class List {
 private:
+  /**
+   * number of nodes in the list
+   */
   int elements;
+  /**
+   * head is the first node in the list, while tail is the last node
+   */
   Node<T> *head;
   Node<T> *tail;
-  // aux methods for insertion method
+  /**
+   * @brief Auxiliary method that inserts a value at the beginning of the list
+   * @param value is any value to be inserted
+   * @see insertion(T value)
+   * @return void
+   */
   void insertHead(T value);
+  /**
+   * @brief Auxiliary method that inserts a value at the end of the list
+   * @param value is any value to be inserted
+   * @see insertion(T value)
+   * @return void
+   */
   void insertTail(T value);
-  // aux methods for removal
+  /**
+   * @brief Auxiliary method that deletes the first value of the list
+   * @return value of the deleted node
+   * @see deleteAt(unsigned int index)
+   */
   T deleteHead();
+  /**
+   * @brief Auxiliary method that deletes the last value of the list
+   * @return value of the deleted node
+   * @see deleteAt(unsigned int index)
+   */
   T deleteTail();
 
 public:
+  /**
+   * @brief Inserts a value at the end of the list, similar to append or
+   * push_back
+   * @param value is any value to be inserted
+   * @return void
+   */
   void insertion(T value);
+  /**
+   * @brief Inserts a T value at a specified index, starting from 0
+   * @param value is any value to be inserted
+   * @param index is the position to place the value
+   * @return void
+   */
   void insertion(unsigned int index, T value);
+  /**
+   * @brief Search for value in the list, return index or -1 if not found
+   * @param value to look for
+   * @return index of the first found element
+   * @return -1 when element is not found
+   */
   int search(T value);
+  /**
+   * @brief Change the value of the node at the specified index
+   * @param index position to update said value
+   * @param value to change
+   */
   void update(unsigned int index, T value);
+  /**
+   * @brief Delete a node from the list and return its value
+   * @param index of the node to remove
+   * @return value of the deleted node
+   */
   T deleteAt(unsigned int index);
-
+  /**
+   * @brief Makes a string using sstream in the specified format of the Single
+   * Linked List
+   * @returns string of the linked list between brackets
+   */
   std::string toString();
 };
+
+/**
+ * @section Method definitions
+ */
 
 template <class T> std::string List<T>::toString() {
   std::stringstream aux;
@@ -186,13 +257,13 @@ template <typename T> void List<T>::update(unsigned int index, T value) {
   return;
 }
 
+// deletes the first element
 template <typename T> T List<T>::deleteHead() {
   // Do nothing if empty
   if (elements == 0)
     return -1;
 
-  // Save the current Head
-  // to a new node
+  // Save head to node
   Node<T> *node = head;
 
   // Point the Head Pointer
@@ -226,9 +297,7 @@ template <typename T> T List<T>::deleteTail() {
     node = node->next;
   }
 
-  // prev becomes the Tail
-  // so the Next pointer of the prevNode
-  // point to NULL
+  // prev becomes tail
   prev->next = nullptr;
   tail = prev;
 
