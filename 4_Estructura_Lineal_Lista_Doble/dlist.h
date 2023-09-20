@@ -287,39 +287,35 @@ template <typename T> T DList<T>::deleteHead() {
   // to the element next to the current Head
   head = head->next;
   T value_copy = head->value;
+
   // Now it's safe to remove
   // the first element
   delete node;
+
+  // prev pointer of head now points to null
+  if (head != nullptr)
+    head->prev = nullptr;
 
   // One element is removed
   elements--;
   return value_copy;
 }
+
 template <typename T> T DList<T>::deleteTail() {
   // one element? remove head
   if (elements == 1) {
     return deleteHead();
   }
 
-  // Start from the Head
-  DNode<T> *prev = head;
+  // Start from tail
+  DNode<T> *node = tail;
 
-  // were we store the info that gets deleted
-  DNode<T> *node = head->next;
+  // now that we are dlinked, we can just remove tail and update
+  // store the info that gets deleted
+  tail = tail->prev;
+  tail->next = nullptr;
 
-  // Traverse the elements until
-  // the last element
-  while (node->next != nullptr) {
-    prev = prev->next;
-    node = node->next;
-  }
-
-  // prev becomes tail
-  prev->next = nullptr;
-  tail = prev;
-
-  T value_copy = node->value;
-
+  T value_copy = tail->data;
   // Now it's safe to remove
   // the last element
   delete node;
@@ -364,6 +360,8 @@ template <typename T> T DList<T>::deleteAt(unsigned int index) {
 
   // link prev to next
   prev->next = next;
+  // update the second link
+  next->prev = prev;
 
   T value_copy = node->value;
   // It's now safe to remove
