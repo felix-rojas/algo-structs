@@ -43,14 +43,19 @@
 template <typename T> class List {
 
 private:
-  Node<T> head;
-  Node<T> tail;
+  int elements;
+  Node<T> *head;
+  Node<T> *tail;
+  // aux methods for insertion method
+  void insertHead(T value);
+  void insertTail(T value);
 
 public:
-  void insertion();
-  int search();
-  void update();
-  T deleteAt();
+  void insertion(T value);
+  void insertion(unsigned int index, T value);
+  int search(T value);
+  void update(unsigned int index, T value);
+  T deleteAt(unsigned int index);
 
   std::string toString();
 };
