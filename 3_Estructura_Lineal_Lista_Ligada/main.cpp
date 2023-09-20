@@ -4,7 +4,7 @@
  *  Created on: 10/08/2020
  *      Author: bvaldesa
  */
-#include "list.cpp"
+#include "list.h"
 #include <cstring>
 #include <iostream>
 #include <sstream>
