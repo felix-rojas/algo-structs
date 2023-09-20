@@ -54,7 +54,6 @@ private:
   T deleteTail();
 
 public:
-  List();
   void insertion(T value);
   void insertion(unsigned int index, T value);
   int search(T value);
