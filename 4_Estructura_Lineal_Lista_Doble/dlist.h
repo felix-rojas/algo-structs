@@ -170,6 +170,8 @@ template <typename T> void DList<T>::insertTail(T value) {
   DNode<T> *node = new DNode<T>(value);
   // same as insertHead, this node becomes tail
   tail->next = node;
+  // prev pointer of new node points to tail
+  node->prev = tail;
   tail = node;
   elements++;
 }
@@ -209,7 +211,11 @@ template <typename T> void DList<T>::insertion(unsigned int index, T value) {
   // Insert new node between
   // the previous node and the next node
   node->next = next;
+  // update prev pointer as well
+  node->prev = prev;
   prev->next = node;
+  // update prev of next to node
+  next->prev = node;
 
   // increase list size
   elements++;
