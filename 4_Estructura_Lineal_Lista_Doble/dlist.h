@@ -144,6 +144,9 @@ template <typename T> void DList<T>::insertHead(T value) {
 
   // New node points at head
   node->next = head;
+  // if head exists, update prev pointer
+  if (head != nullptr)
+    head->prev = node;
   // The new Node is the Head now
   head = node;
 
