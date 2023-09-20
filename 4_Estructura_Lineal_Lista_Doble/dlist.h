@@ -129,10 +129,10 @@ template <class T> std::string DList<T>::toStringBackward() {
   aux << "[";
   while (p != 0) {
     aux << p->value;
-    if (p->previous != 0) {
+    if (p->prev != 0) {
       aux << ", ";
     }
-    p = p->previous;
+    p = p->prev;
   }
   aux << "]";
   return aux.str();
@@ -315,7 +315,7 @@ template <typename T> T DList<T>::deleteTail() {
   tail = tail->prev;
   tail->next = nullptr;
 
-  T value_copy = tail->data;
+  T value_copy = tail->value;
   // Now it's safe to remove
   // the last element
   delete node;
