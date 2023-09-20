@@ -1,4 +1,5 @@
 #include "list.h"
+#include <cstddef>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -94,27 +95,101 @@ template <typename T> void List<T>::insertion(unsigned int index, T value) {
   // increase list size
   elements++;
 }
-// push_back method for LinkedLIst
-template <typename T> void List<T>::insertion(T value) { insertTail(value); }
+// push_back method for LinkedList
+template <typename T> void List<T>::insertion(T value) {
+  insertTail(value);
+  return;
+}
 
 template <typename T> int List<T>::search(T element) {
-  // Start from the Head
+  // empty list, lol
+  if (elements == 0)
+    return -1;
+
+  // counter
+  int index = 0;
+
+  // Traverse from the Head node
   Node<T> *node = head;
 
-  // Iterate through the linked list elements
-  // until it finds the selected index
-  for (int i = 0; i < elements; ++i) {
+  // Traverse until the selected value
+  // is matched with the value
+  // of the current position,
+  while (node->value != element) {
+    index++;
     node = node->next;
-    if (node->value == element)
-      return i;
+
+    // This will happen
+    // if the selected value
+    // is not found
+    if (node == nullptr) {
+      return -1;
+    }
   }
 
-  // Value wasnt found
-  return -1;
+  return index;
 }
 // !TODO
 template <typename T> void List<T>::update(unsigned int index, T value) {
   return;
+}
+
+template <typename T> T List<T>::deleteHead() {
+  // Do nothing if empty
+  if (elements == 0)
+    return;
+
+  // Save the current Head
+  // to a new node
+  Node<T> *node = head;
+
+  // Point the Head Pointer
+  // to the element next to the current Head
+  head = head->next;
+  T value_copy = head->value;
+  // Now it's safe to remove
+  // the first element
+  delete node;
+
+  // One element is removed
+  elements--;
+  return value_copy;
+}
+template <typename T> T List<T>::deleteTail() {
+  // one element? remove head
+  if (elements == 1) {
+    deleteHead();
+    return;
+  }
+
+  // Start from the Head
+  Node<T> *prev = head;
+
+  // were we store the info that gets deleted
+  Node<T> *node = head->next;
+
+  // Traverse the elements until
+  // the last element
+  while (node->next != nullptr) {
+    prev = prev->next;
+    node = node->next;
+  }
+
+  // the prevNode now becomes the Tail
+  // so the Next pointer of the prevNode
+  // point to NULL
+  prev->next = nullptr;
+  tail = prev;
+
+  T value_copy = node->value;
+
+  // Now it's safe to remove
+  // the last element
+  delete node;
+
+  // One element is removed
+  elements--;
+  return value_copy;
 }
 // !TODO
 template <typename T> T List<T>::deleteAt(unsigned int index) { return 0; }

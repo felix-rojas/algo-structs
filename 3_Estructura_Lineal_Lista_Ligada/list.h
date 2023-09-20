@@ -49,8 +49,12 @@ private:
   // aux methods for insertion method
   void insertHead(T value);
   void insertTail(T value);
+  // aux methods for removal
+  T deleteHead();
+  T deleteTail();
 
 public:
+  List();
   void insertion(T value);
   void insertion(unsigned int index, T value);
   int search(T value);
