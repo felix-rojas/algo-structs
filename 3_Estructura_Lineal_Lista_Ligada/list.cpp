@@ -152,7 +152,8 @@ template <typename T> void List<T>::update(unsigned int index, T value) {
 
 template <typename T> T List<T>::deleteHead() {
   // Do nothing if empty
-  return -1;
+  if (elements == 0)
+    return -1;
 
   // Save the current Head
   // to a new node
