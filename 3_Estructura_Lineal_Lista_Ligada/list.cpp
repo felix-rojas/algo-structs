@@ -137,7 +137,7 @@ template <typename T> void List<T>::update(unsigned int index, T value) {
 template <typename T> T List<T>::deleteHead() {
   // Do nothing if empty
   if (elements == 0)
-    return;
+    return -1;
 
   // Save the current Head
   // to a new node
@@ -158,8 +158,7 @@ template <typename T> T List<T>::deleteHead() {
 template <typename T> T List<T>::deleteTail() {
   // one element? remove head
   if (elements == 1) {
-    deleteHead();
-    return;
+    return deleteHead();
   }
 
   // Start from the Head
@@ -191,5 +190,48 @@ template <typename T> T List<T>::deleteTail() {
   elements--;
   return value_copy;
 }
-// !TODO
-template <typename T> T List<T>::deleteAt(unsigned int index) { return 0; }
+// !TODO: test
+template <typename T> T List<T>::deleteAt(unsigned int index) {
+  // cant delete with no elements
+  if (elements == 0)
+    return -1;
+
+  // index is out of bound
+  if (index < 0 || index >= elements)
+    return -1;
+
+  // removing first element
+  if (index == 0) {
+    return deleteHead();
+  }
+  // removing last element
+  else if (index == elements - 1) {
+    return deleteTail();
+  }
+
+  // traverse list from Head
+  Node<T> *prev = head;
+
+  // Find the element before
+  for (int i = 0; i < index - 1; ++i) {
+    prev = prev->next;
+  }
+
+  // The removed element is after
+  Node<T> *node = prev->next;
+
+  // next node to insert
+  Node<T> *next = node->next;
+
+  // link prev to next
+  prev->next = next;
+
+  T value_copy = node->value;
+  // It's now safe to remove
+  // the selected index element
+  delete node;
+
+  // One element is removed
+  elements--;
+  return value_copy;
+}
