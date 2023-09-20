@@ -1,4 +1,5 @@
 #include "list.h"
+#include "node.h"
 #include <cstddef>
 #include <sstream>
 #include <stdexcept>
@@ -97,6 +98,9 @@ template <typename T> void List<T>::insertion(unsigned int index, T value) {
 }
 // push_back method for LinkedList
 template <typename T> void List<T>::insertion(T value) {
+  if (elements == 0) {
+    insertHead(value);
+  }
   insertTail(value);
   return;
 }
@@ -129,15 +133,23 @@ template <typename T> int List<T>::search(T element) {
 
   return index;
 }
-// !TODO
+
 template <typename T> void List<T>::update(unsigned int index, T value) {
-  return;
+  if (index > elements || index < 0) {
+    throw;
+  }
+  Node<T> *node = head;
+  int count = 0;
+  while (count < index) {
+    index++;
+    node = node->next;
+  }
+  node->value = value;
 }
 
 template <typename T> T List<T>::deleteHead() {
   // Do nothing if empty
-  if (elements == 0)
-    return -1;
+  return -1;
 
   // Save the current Head
   // to a new node
@@ -190,7 +202,7 @@ template <typename T> T List<T>::deleteTail() {
   elements--;
   return value_copy;
 }
-// !TODO: test
+
 template <typename T> T List<T>::deleteAt(unsigned int index) {
   // cant delete with no elements
   if (elements == 0)
