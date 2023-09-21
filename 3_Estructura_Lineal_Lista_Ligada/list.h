@@ -11,24 +11,38 @@
 #include <stdexcept>
 #include <string>
 
+template <class T> class List;
+
 /**
  * @brief Node with templates for a single linked list
  */
-template <typename T> class Node {
-public:
+template <class T> class Node {
+private:
   T value;
   Node *next;
   /**
    * @brief Create a node tha points to nullptr by default with a value
    * @param value Any data value that can be used in a template
    */
-  Node(T value) : value(value), next(nullptr) {}
+  Node(T);
+  Node(T, Node<T>*);
+  Node(const Node<T>&);
+  friend class List<T>;
 };
+
+template <class T>
+Node<T>::Node(T val) : value(val), next(nullptr) {}
+
+template <class T>
+Node<T>::Node(T val, Node* nxt) : value(val), next(nxt) {}
+
+template <class T>
+Node<T>::Node(const Node<T> &src) : value(src.value), next(src.next) {}
 
 /**
  * @brief Single Linked List data structure with a head and tail
  */
-template <typename T> class List {
+template <class T> class List {
 private:
   /**
    * number of nodes in the list
@@ -67,6 +81,8 @@ private:
   T deleteTail();
 
 public:
+List();
+
   /**
    * @brief Inserts a value at the end of the list, similar to append or
    * push_back
@@ -111,6 +127,12 @@ public:
 /**
  * @section Method definitions
  */
+
+template <class T> 
+List<T>::List() : head(nullptr), elements(0) {}
+
+template <class T> 
+List<T>::List() : head(nullptr), elements(0) {}
 
 template <class T> std::string List<T>::toString() {
   std::stringstream aux;
