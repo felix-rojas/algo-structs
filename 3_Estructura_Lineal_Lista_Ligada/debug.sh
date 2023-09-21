@@ -1,1 +1,1 @@
-g++ main.cpp -g -o a && valgrind --leak-check=yes ./a
+g++ main.cpp -g -o a && valgrind --leak-check=full ./a &> tee memcheck_out.txt
