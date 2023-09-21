@@ -1,0 +1,1 @@
+g++ main.cpp -g -o a && valgrind --leak-check=yes ./a

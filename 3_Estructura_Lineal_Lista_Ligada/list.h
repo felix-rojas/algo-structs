@@ -25,16 +25,14 @@ private:
    * @param value Any data value that can be used in a template
    */
   Node(T);
-  Node(T, Node<T>*);
-  Node(const Node<T>&);
+  Node(T, Node<T> *);
+  Node(const Node<T> &);
   friend class List<T>;
 };
 
-template <class T>
-Node<T>::Node(T val) : value(val), next(nullptr) {}
+template <class T> Node<T>::Node(T val) : value(val), next(nullptr) {}
 
-template <class T>
-Node<T>::Node(T val, Node* nxt) : value(val), next(nxt) {}
+template <class T> Node<T>::Node(T val, Node *nxt) : value(val), next(nxt) {}
 
 template <class T>
 Node<T>::Node(const Node<T> &src) : value(src.value), next(src.next) {}
@@ -81,10 +79,12 @@ private:
   T deleteTail();
 
 public:
-List();
-List(const List<T>&);
-~List();
-
+  /**
+   * @brief Creates an empty list
+   */
+  List();
+  List(const List<T> &);
+  ~List();
   /**
    * @brief Inserts a value at the end of the list, similar to append or
    * push_back
@@ -124,7 +124,7 @@ List(const List<T>&);
    * @returns string of the linked list between brackets
    */
   std::string toString();
-    /**
+  /**
    * @brief Clears all content from the Linked List
    */
   void clear();
@@ -134,13 +134,9 @@ List(const List<T>&);
  * @section Method definitions
  */
 
-template <class T> 
-List<T>::List() : head(nullptr), elements(0) {}
+template <class T> List<T>::List() : head(nullptr), tail(nullptr), elements(0) {}
 
-template <class T> 
-List<T>::~List(){
-  clear();
-}
+template <class T> List<T>::~List() { clear(); }
 
 template <class T> std::string List<T>::toString() {
   std::stringstream aux;
@@ -388,19 +384,19 @@ template <typename T> T List<T>::deleteAt(unsigned int index) {
   return value_copy;
 }
 
-template <class T>
-void List<T>::clear() {
-	Node<T> *p, *q;
+template <class T> void List<T>::clear() {
+  Node<T> *prev, *curr;
 
-	p = head;
-	while (p != 0) {
-		q = p->next;
-		delete p;
-		p = q;
-	}
-	head = 0;
-	elements = 0;
+  prev = head;
+  while (prev != 0) {
+    curr = prev->next;
+    delete prev;
+    prev = curr;
+  }
+
+  head = nullptr;
+  tail = nullptr;
+  elements = 0;
 }
-
 
 #endif // LIST_H
