@@ -50,7 +50,6 @@ private:
    * head is the first node in the list, while tail is the last node
    */
   Node<T> *head;
-  Node<T> *tail;
   /**
    * @brief Auxiliary method that inserts a value at the beginning of the list
    * @param value is any value to be inserted
@@ -59,24 +58,11 @@ private:
    */
   void insertHead(T value);
   /**
-   * @brief Auxiliary method that inserts a value at the end of the list
-   * @param value is any value to be inserted
-   * @see insertion(T value)
-   * @return void
-   */
-  void insertTail(T value);
-  /**
    * @brief Auxiliary method that deletes the first value of the list
    * @return value of the deleted node
    * @see deleteAt(unsigned int index)
    */
   T deleteHead();
-  /**
-   * @brief Auxiliary method that deletes the last value of the list
-   * @return value of the deleted node
-   * @see deleteAt(unsigned int index)
-   */
-  T deleteTail();
 
 public:
   /**
@@ -134,7 +120,7 @@ public:
  * @section Method definitions
  */
 
-template <class T> List<T>::List() : head(nullptr), tail(nullptr), elements(0) {}
+template <class T> List<T>::List() : head(nullptr), elements(0) {}
 
 template <class T> List<T>::~List() { clear(); }
 
@@ -165,27 +151,7 @@ template <typename T> void List<T>::insertHead(T value) {
   // The new Node is the Head now
   head = node;
 
-  // If the linked list is empty
-  // The Tail is also the Head
-  if (elements == 0)
-    tail = head;
-
   // One element is added
-  elements++;
-}
-
-template <typename T> void List<T>::insertTail(T value) {
-  // if empty, invoke insertHead()
-  if (elements == 0) {
-    insertHead(value);
-    return;
-  }
-
-  // Create a new Node
-  Node<T> *node = new Node<T>(value);
-  // same as insertHead, this node becomes tail
-  tail->next = node;
-  tail = node;
   elements++;
 }
 
@@ -197,11 +163,6 @@ template <typename T> void List<T>::insertion(unsigned int index, T value) {
   // list has zero elements
   if (index == 0) {
     insertHead(value);
-    return;
-  }
-  // list has index elements
-  else if (index == elements) {
-    insertTail(value);
     return;
   }
 
@@ -231,12 +192,7 @@ template <typename T> void List<T>::insertion(unsigned int index, T value) {
 }
 // push_back method for LinkedList
 template <typename T> void List<T>::insertion(T value) {
-  if (elements == 0) {
-    insertHead(value);
-    return;
-  }
-  insertTail(value);
-  return;
+  insertion(this->elements, value);
 }
 
 template <typename T> int List<T>::search(T element) {
@@ -304,39 +260,6 @@ template <typename T> T List<T>::deleteHead() {
   elements--;
   return value_copy;
 }
-template <typename T> T List<T>::deleteTail() {
-  // one element? remove head
-  if (elements == 1) {
-    return deleteHead();
-  }
-
-  // Start from the Head
-  Node<T> *prev = head;
-
-  // were we store the info that gets deleted
-  Node<T> *node = head->next;
-
-  // Traverse the elements until
-  // the last element
-  while (node->next != nullptr) {
-    prev = prev->next;
-    node = node->next;
-  }
-
-  // prev becomes tail
-  prev->next = nullptr;
-  tail = prev;
-
-  T value_copy = node->value;
-
-  // Now it's safe to remove
-  // the last element
-  delete node;
-
-  // One element is removed
-  elements--;
-  return value_copy;
-}
 
 template <typename T> T List<T>::deleteAt(unsigned int index) {
   // cant delete with no elements
@@ -350,10 +273,6 @@ template <typename T> T List<T>::deleteAt(unsigned int index) {
   // removing first element
   if (index == 0) {
     return deleteHead();
-  }
-  // removing last element
-  else if (index == elements - 1) {
-    return deleteTail();
   }
 
   // traverse list from Head
@@ -395,7 +314,6 @@ template <class T> void List<T>::clear() {
   }
 
   head = nullptr;
-  tail = nullptr;
   elements = 0;
 }
 
