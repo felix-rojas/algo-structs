@@ -82,6 +82,8 @@ private:
 
 public:
 List();
+List(const List<T>&);
+~List();
 
   /**
    * @brief Inserts a value at the end of the list, similar to append or
@@ -122,6 +124,10 @@ List();
    * @returns string of the linked list between brackets
    */
   std::string toString();
+    /**
+   * @brief Clears all content from the Linked List
+   */
+  void clear();
 };
 
 /**
@@ -132,7 +138,9 @@ template <class T>
 List<T>::List() : head(nullptr), elements(0) {}
 
 template <class T> 
-List<T>::List() : head(nullptr), elements(0) {}
+List<T>::~List(){
+  clear();
+}
 
 template <class T> std::string List<T>::toString() {
   std::stringstream aux;
@@ -379,5 +387,20 @@ template <typename T> T List<T>::deleteAt(unsigned int index) {
   elements--;
   return value_copy;
 }
+
+template <class T>
+void List<T>::clear() {
+	Node<T> *p, *q;
+
+	p = head;
+	while (p != 0) {
+		q = p->next;
+		delete p;
+		p = q;
+	}
+	head = 0;
+	elements = 0;
+}
+
 
 #endif // LIST_H
