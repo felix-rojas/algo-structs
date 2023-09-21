@@ -1,3 +1,9 @@
 *.out
 .vscode*
 *.log
+.vs/slnx.sqlite
+.vs/tasks.vs.json
+.vs/VSWorkspaceState.json
+.vs/algo-structs/FileContentIndex/471e81f8-d650-46c7-a39a-c20fe292b600.vsidx
+.vs/algo-structs/v17/.wsuo
+3_Estructura_Lineal_Lista_Ligada/a
