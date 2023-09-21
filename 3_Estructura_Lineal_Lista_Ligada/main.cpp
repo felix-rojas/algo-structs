@@ -35,9 +35,11 @@ std::string List<T>::toString() const {
 
 int main(int argc, char *argv[]) {
   List<int> b1;
+  List<int> b2;
   string ans;
 
   b1.insertion(2);
+  b2 = b1;
   ans = "[2]";
   cout << "\n"
        << "1.- esperada " << ans << "\n programa " << b1.toString() << "\n";
