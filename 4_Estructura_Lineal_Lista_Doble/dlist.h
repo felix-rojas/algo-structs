@@ -3,12 +3,14 @@
 #include <sstream>
 #include <string>
 
+template <typename T> class DList;
 template <typename T> class DNode {
-public:
+private:
   T value;
   DNode<T> *prev;
   DNode<T> *next;
   DNode(T value) : value(value), next(nullptr), prev(nullptr) {}
+  friend class DList<T>;
 };
 
 template <typename T> class DList {
