@@ -4,14 +4,21 @@
 #include <string>
 
 template <typename T> class DList;
+/**
+ * @brief Auxiliary class for the class DList to hold data and links to
+ * previous and the next pointer
+ * @tparam T holds data for any value that can be used with templates
+ */
 template <typename T> class DNode {
 private:
   T value;
   DNode<T> *prev;
   DNode<T> *next;
-  DNode(T value) : value(value), next(nullptr), prev(nullptr) {}
+  DNode(T value);
   friend class DList<T>;
 };
+template <typename T>
+DNode<T>::DNode(T value) : value(value), next(nullptr), prev(nullptr) {}
 
 template <typename T> class DList {
 private:
@@ -30,14 +37,68 @@ private:
    * @see deleteAt(unsigned int index)
    */
   void deleteTail();
+  /**
+   * @brief helper function to copy from other DList
+   *
+   * @param other DList to copy
+   */
+  void copyFrom(const DList<T> &);
+  /**
+   * @brief helper function for moving DList
+   *
+   * @param other DList to move to
+   */
+  void moveFrom(DList<T> &&other);
 
 public:
+  /**
+   * @brief Construct a new DList object
+   *
+   */
   DList();
-  DList(const DList<T> &);
+  /**
+   * @brief Copy Construct a new DList object
+   *
+   */
+  DList(const DList<T> &other);
+  /**
+   * @brief Copy assginment operator
+   *
+   * @param other DList to copy
+   * @return DList& pointr to the newly created DList
+   */
+  DList<T> &operator=(const DList<T> &other);
+  /**
+   * @brief Move constructor for DList<T> object
+   * 
+   * @param other DList
+   */
+  DList<T>(DList<T> &&other) noexcept { moveFrom(std::move(other)); }
+/**
+ * @brief Move operator overload for DList<T> object
+ * 
+ * @param other DList
+ * @return DList<T>& pointer to the moved list
+ */
+  DList<T> &operator=(DList<T> &&other) noexcept {
+    if (this != &other) {
+      clear();
+      moveFrom(std::move(other));
+    }
+    return *this;
+  }
+  /**
+   * @brief Deletes the doubly linked list and frees the heap
+   */
   ~DList();
   /**
-   * @brief Inserts a value at the end of the list, similar to append or
-   * push_back
+   * @brief helper function to delete the DList and free memory
+   *
+   */
+  void clear();
+  /**
+   * @brief Inserts a value at the end of the list, similar to push_back for
+   * std::vector
    * @param value is any value to be inserted
    * @return void
    */
@@ -56,28 +117,61 @@ public:
    */
   void update(int index, T value);
   /**
-   * @brief Delete a node from the list and return its value
+   * @brief Delete a node from the list
    * @param index of the node to remove
-   * @return value of the deleted node
    */
   void deleteAt(int index);
   /**
-   * @brief Makes a string using sstream in the specified format of the Single
+   * @brief Makes a string using sstream in the specified format of the Doubly
    * Linked List
    * @returns string of the linked list between brackets
    */
   std::string toString();
   std::string toStringForward();
+  /**
+   * @brief Makes a string using sstream in reverse of the Doubly Linked List
+   * @returns string of the linked list with reversed output
+   */
   std::string toStringBackward();
 };
 
 /**
  * @section Method definitions
  */
+
+/**
+ * @brief Default constructor with pre-initialization
+ */
 template <class T>
 DList<T>::DList() : head(nullptr), tail(nullptr), elements(0) {}
 
-template <class T> DList<T>::~DList() {
+template <class T> DList<T>::DList(const DList<T> &other) {
+  DNode<T> *current = other->head;
+  while (current != nullptr) {
+    insertion(current->value);
+    current = current->next;
+  }
+}
+
+template <class T> DList<T> &DList<T>::operator=(const DList<T> &other) {
+  if (this != &other) {
+    clear();
+    copyFrom(other);
+  }
+  return *this;
+}
+
+template <class T> void DList<T>::copyFrom(const DList<T> &other) {
+  DNode<T> *current = other.head;
+  while (current != nullptr) {
+    insertion(current->value);
+    current = current->next;
+  }
+}
+
+template <class T> DList<T>::~DList() { clear(); }
+
+template <class T> void DList<T>::clear() {
   DNode<T> *p, *q;
 
   p = head;
@@ -141,7 +235,6 @@ template <typename T> void DList<T>::insertion(T value) {
     elements++;
   }
 }
-// push_back method for LinkedList
 
 template <typename T> int DList<T>::search(T element) {
   // empty list, lol
@@ -155,15 +248,11 @@ template <typename T> int DList<T>::search(T element) {
   DNode<T> *node = head;
 
   // Traverse until the selected value
-  // is matched with the value
-  // of the current position,
   while (node->value != element) {
     index++;
     node = node->next;
 
-    // This will happen
-    // if the selected value
-    // is not found
+    // selected value is not found
     if (node == nullptr) {
       return -1;
     }
@@ -280,7 +369,7 @@ template <typename T> void DList<T>::deleteAt(int index) {
 
   // One element is removed
   elements--;
-  return ;
+  return;
 }
 
 #endif // DLIST_H

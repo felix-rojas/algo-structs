@@ -16,6 +16,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 	DList<int> b1;
+	DList<int> b2;
 	string front, back;
 
 	b1.insertion(2);
@@ -29,6 +30,8 @@ int main(int argc, char* argv[]) {
  	b1.insertion(3);
 	b1.insertion(6);
 	b1.insertion(10);
+	b2 = b1;
+	cout <<	(!front.compare(b2.toStringForward()) ? "success\n" : "fail\n");
 	front = "[2, 3, 6, 10]";
 	back = "[10, 6, 3, 2]";
 	cout << "\n" <<"2.- esperada " << front << "\n programa " << b1.toStringForward() << "\n";
