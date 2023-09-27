@@ -197,7 +197,6 @@ template <typename T> void DList<T>::deleteHead() {
   // Point the Head Pointer
   // to the element next to the current Head
   head = head->next;
-  T value_copy = head->value;
 
   // Now it's safe to remove
   // the first element
@@ -226,7 +225,6 @@ template <typename T> void DList<T>::deleteTail() {
   tail = tail->prev;
   tail->next = nullptr;
 
-  T value_copy = tail->value;
   // Now it's safe to remove
   // the last element
   delete node;
