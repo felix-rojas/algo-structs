@@ -271,10 +271,11 @@ public:
   std::string postorder() const;
   std::string weirdorder() const;
 
-  // !TODO
   std::string visit();
   int height();
+  // !TODO
   int whatlevelamI(T);
+  // !TODO
   std::string ancestors(int);
 };
 
@@ -392,13 +393,12 @@ template <class T> std::string BST<T>::postorder() const {
   return aux.str();
 }
 
-// !TODO
 template <class T> std::string BST<T>::visit() {
   std::string temp =
       preorder() + "\n" + inorder() + "\n" + weirdorder() + "\n" + postorder();
   return temp;
 }
-// !TODO
+
 template <class T> int BST<T>::height() { return root->find_height(); }
 
 // !TODO
@@ -407,5 +407,4 @@ template <class T> int BST<T>::whatlevelamI(T val) {
 }
 // !TODO
 template <class T> std::string BST<T>::ancestors(int val) { return "[]"; }
-// !TODO}
 #endif /* BST_H_ */
