@@ -27,14 +27,14 @@ public:
   TreeNode(T, TreeNode<T> *, TreeNode<T> *);
   void add(T);
   bool find(T) const;
-  int findLevel(T, int) const;
+  int findLevel(T, int) ;
   int find_height();
   void remove(T);
   void removeChildren();
   void inorder(std::stringstream &) const;
   void preorder(std::stringstream &) const;
   void postorder(std::stringstream &) const;
-  void weirdorder(std::stringstream &) const;
+  void level_order(std::stringstream &) const;
 
   friend class BST<T>;
 };
@@ -90,21 +90,17 @@ template <class T> bool TreeNode<T>::find(T val) const {
   return true;
 }
 
-template <class T> int TreeNode<T>::findLevel(T val, int level) const {
+template <class T> int TreeNode<T>::findLevel(T val, int level) {
   if (val < value) {
     if (left != nullptr) {
       left->findLevel(val, level + 1);
-    } else
-      return -1;
+    } 
   } else if (val > value) {
     if (right != nullptr) {
       right->findLevel(val, level + 1);
-    } else
-      return -1;
-  } else if (val == value) {
-    return level;
-  }
-  return -1;
+    }
+  } 
+return level;
 }
 
 template <class T> TreeNode<T> *TreeNode<T>::succesor() {
@@ -230,26 +226,27 @@ template <class T> void TreeNode<T>::preorder(std::stringstream &aux) const {
 }
 
 template <class T> void TreeNode<T>::postorder(std::stringstream &aux) const {
-  aux << value;
   if (left != nullptr) {
-    aux << " ";
-    left->preorder(aux);
+    left->postorder(aux);
   }
   if (right != nullptr) {
-    aux << " ";
     right->postorder(aux);
   }
+  if (aux.tellp() != 1) {
+    aux << " ";
+  }
+  aux << value;
 }
 
-template <class T> void TreeNode<T>::weirdorder(std::stringstream &aux) const {
+template <class T> void TreeNode<T>::level_order(std::stringstream &aux) const {
   aux << value;
-  if (right != nullptr) {
-    aux << " ";
-    right->weirdorder(aux);
-  }
   if (left != nullptr) {
     aux << " ";
-    left->preorder(aux);
+    left->level_order(aux);
+  }
+  if (right != nullptr) {
+    aux << " ";
+    right->level_order(aux);
   }
 }
 
@@ -269,7 +266,7 @@ public:
   std::string inorder() const;
   std::string preorder() const;
   std::string postorder() const;
-  std::string weirdorder() const;
+  std::string level_order() const;
 
   std::string visit();
   int height();
@@ -364,22 +361,15 @@ template <class T> std::string BST<T>::preorder() const {
 }
 
 // !TODO
-template <class T> std::string BST<T>::weirdorder() const {
-  std::stringstream aux;
+template <class T> std::string BST<T>::level_order() const {
+   std::stringstream aux;
+
+  aux << "[";
   if (!empty()) {
-    root->weirdorder(aux);
+    root->level_order(aux);
   }
-  std::vector<std::string> tmp;
-  std::string set;
-  std::string invertedStr;
-  while (aux >> set)
-    tmp.push_back(set);
-  std::reverse(tmp.begin(), tmp.end());
-  for (const std::string &reversedSet : tmp) {
-    invertedStr += reversedSet + " ";
-  }
-  invertedStr.pop_back();
-  return "[" + invertedStr + "]";
+  aux << "]";
+  return aux.str();
 }
 
 template <class T> std::string BST<T>::postorder() const {
@@ -395,7 +385,7 @@ template <class T> std::string BST<T>::postorder() const {
 
 template <class T> std::string BST<T>::visit() {
   std::string temp =
-      preorder() + "\n" + inorder() + "\n" + weirdorder() + "\n" + postorder();
+      preorder() + "\n" + inorder()  + "\n" + postorder() + "\n" + level_order();
   return temp;
 }
 
