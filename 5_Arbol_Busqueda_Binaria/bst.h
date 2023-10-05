@@ -27,7 +27,7 @@ public:
   TreeNode(T, TreeNode<T> *, TreeNode<T> *);
   void add(T);
   bool find(T) const;
-  int findLevel(T, int&) ;
+  int findLevel(T, int &);
   int find_height();
   void remove(T);
   void removeChildren();
@@ -64,7 +64,7 @@ template <class T> void TreeNode<T>::add(T val) {
 
 template <class T> int TreeNode<T>::find_height() {
 
-  // Base case: If empty (root is nullptr), the height 0.
+  // Base case: If empty (root is nullptr), the height 1.
   if (this == nullptr) {
     return 0;
   }
@@ -93,13 +93,12 @@ template <class T> bool TreeNode<T>::find(T val) const {
 template <class T> int TreeNode<T>::findLevel(T val, int &level) {
   if (val < value) {
     level++;
-      left->findLevel(val, level);
-  } 
-  else if (val > value) {
+    left->findLevel(val, level);
+  } else if (val > value) {
     level++;
-      right->findLevel(val, level);
-  } 
-  else if (val == value) return level;
+    right->findLevel(val, level);
+  }
+  return level;
 }
 
 template <class T> TreeNode<T> *TreeNode<T>::succesor() {
@@ -269,7 +268,6 @@ public:
 
   std::string visit();
   int height();
-  // !TODO
   int whatlevelamI(T);
   // !TODO
   std::string ancestors(int);
@@ -360,7 +358,7 @@ template <class T> std::string BST<T>::preorder() const {
 }
 
 template <class T> std::string BST<T>::level_order() const {
-   std::stringstream aux;
+  std::stringstream aux;
 
   aux << "[";
   if (!empty()) {
@@ -383,13 +381,12 @@ template <class T> std::string BST<T>::postorder() const {
 
 template <class T> std::string BST<T>::visit() {
   std::string temp =
-      preorder() + "\n" + inorder()  + "\n" + postorder() + "\n" + level_order();
+      preorder() + "\n" + inorder() + "\n" + postorder() + "\n" + level_order();
   return temp;
 }
 
 template <class T> int BST<T>::height() { return root->find_height(); }
 
-// !TODO
 template <class T> int BST<T>::whatlevelamI(T val) {
   int level = 1;
   return root->findLevel(val, level);
