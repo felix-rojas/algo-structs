@@ -1,8 +1,9 @@
 /*
  * bst.h
  *
- *  Created on: 30/10/2015
- *      Author: clase
+ *  Created on: 10/08/2023
+ *      Author: felix-rojas
+ *  done during and for classwork
  */
 
 #ifndef BST_H_
