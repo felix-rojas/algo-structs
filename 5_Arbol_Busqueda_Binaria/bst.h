@@ -28,6 +28,7 @@ public:
   void add(T);
   bool find(T) const;
   int findLevel(T, int &);
+  bool findAncestors(TreeNode<T> *, int, std::string &);
   int find_height();
   void remove(T);
   void removeChildren();
@@ -99,6 +100,26 @@ template <class T> int TreeNode<T>::findLevel(T val, int &level) {
     right->findLevel(val, level);
   }
   return level;
+}
+
+template <class T>
+bool TreeNode<T>::findAncestors(TreeNode<T> *node, int val,
+                                std::string &ancestors) {
+  if (node == nullptr) {
+    return false; // Node not found in the tree
+  }
+
+  if (node->value == val) {
+    return true; // Node found
+  }
+
+  if (findAncestors(node->left, val, ancestors) ||
+      findAncestors(node->right, val, ancestors)) {
+    ancestors = std::to_string(node->value) + " " + ancestors;
+    return true;
+  }
+
+  return false;
 }
 
 template <class T> TreeNode<T> *TreeNode<T>::succesor() {
@@ -392,5 +413,12 @@ template <class T> int BST<T>::whatlevelamI(T val) {
   return root->findLevel(val, level);
 }
 // !TODO
-template <class T> std::string BST<T>::ancestors(int val) { return "[]"; }
+template <class T> std::string BST<T>::ancestors(int val) {
+  std::string temp = "";
+  if (root->findAncestors(root, val, temp)) {
+    temp.pop_back();
+    return "[" + temp + "]";
+  }
+  return "[]";
+}
 #endif /* BST_H_ */
