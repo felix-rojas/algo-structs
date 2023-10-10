@@ -1,21 +1,22 @@
 #include <iostream>
 #include <vector>
+typedef long long ll;
 
-long binary_search(std::vector < long >
+long binary_search(std::vector < ll >
 const &arr,
-long lo,
-long hi,
-long max_water
+ll lo,
+ll hi,
+ll max_water
 ) {
-long res = -1;
+ll res = -1;
 while (lo <= hi) {
 // find the midpoint
-long mid = lo + (hi - lo) / 2;
+ll mid = lo + (hi - lo) / 2;
 // calculate how many water blocks there are
 // height - coral_height = water_blocks
-long water_accum = 0;
+ll water_accum = 0;
 for (
-long coral_height
+ll coral_height
 : arr) {
 // coral height must be less than the mid-height
 // because if it is higher, there is no area for water to add
@@ -42,35 +43,26 @@ res;
 }
 
 int main() {
-    unsigned int test_cases;
-    long coral_cols, max_water;
+    ll test_cases;
+    ll coral_cols, max_water;
     std::cin >> test_cases;
-    std::cout << "Test cases: " << test_cases << std::endl;
-    for (unsigned int i = 0; i < test_cases; i++) {
+    for (ll i = 0; i < test_cases; i++) {
         std::cin >> coral_cols;
         std::cin >> max_water;
-        std::cout << "Max water blocks: " << max_water << std::endl;
-        std::vector<long> corals;
+        std::vector<ll> corals;
         corals.reserve(coral_cols);
-        long tallest_coral = 0;
-        long area_sum = 0;
-        std::cout << "Reserved " << coral_cols << " spaces\n";
-        for (long j = 0; j < coral_cols; j++) {
-            long temp = 0;
+        ll tallest_coral = 0;
+        ll area_sum = 0;
+        for (ll j = 0; j < coral_cols; j++) {
+            ll temp = 0;
             std::cin >> temp;
             area_sum += temp;
             corals.push_back(temp);
             if (tallest_coral <= temp) { tallest_coral = temp; }
         }
-        std::cout << "Current vector: ";
-        for (auto coral: corals) {
-            std::cout << coral << " ";
-        }
-        std::cout << std::endl;
-        // data has been saved
-        long low = 1;
-        long high = static_cast<long>(1e10 - 1);
-        long water_blocks_under_tallest_coral = (coral_cols * tallest_coral) - area_sum;
+        ll low = 1;
+        ll high = 1e10 - 1;
+        ll water_blocks_under_tallest_coral = (coral_cols * tallest_coral) - area_sum;
         // more area under the tallest coral means our hi
         // is actually the tallest coral
         if (water_blocks_under_tallest_coral > max_water) {
@@ -81,10 +73,10 @@ int main() {
         if (water_blocks_under_tallest_coral < max_water) {
             low = tallest_coral;
         }
-        long result = binary_search(corals, low, high, max_water);
-        std::cout << "-------------" << std::endl;
-        std::cout << "RESULT is: " << result << std::endl;
-        std::cout << "-------------" << std::endl;
-        // we found the closest midpoint
+        if (coral_cols != 1){
+            std::cout << binary_search(corals, low, high, max_water) << std::endl;
+        } else {
+            std::cout << tallest_coral + max_water << std::endl;
+        }
     }
 }
