@@ -1,1 +1,1 @@
-g++ main.cpp -g -o a && valgrind -s --leak-check=full --track-origins=yes ./a &> memcheck_out.txt
+g++ main.cpp -g -o a && valgrind -s --leak-check=full --track-origins=yes --show-leak-kinds=all ./a &> memcheck_out.txt

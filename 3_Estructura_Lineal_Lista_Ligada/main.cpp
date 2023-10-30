@@ -39,7 +39,6 @@ int main(int argc, char *argv[]) {
   string ans;
 
   b1.insertion(2);
-  b2 = b1;
   ans = "[2]";
   cout << "\n"
        << "1.- esperada " << ans << "\n programa " << b1.toString() << "\n";

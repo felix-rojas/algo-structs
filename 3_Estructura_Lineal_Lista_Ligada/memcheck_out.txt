@@ -1,33 +1,8 @@
-==1897== Memcheck, a memory error detector
-==1897== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==1897== Using Valgrind-3.19.0 and LibVEX; rerun with -h for copyright info
-==1897== Command: ./a
-==1897== 
-==1897== Invalid read of size 8
-==1897==    at 0x109DB6: List<int>::~List() (list.h:167)
-==1897==    by 0x109BC4: main (main.cpp:87)
-==1897==  Address 0x4d68d18 is 8 bytes inside a block of size 16 free'd
-==1897==    at 0x484399B: operator delete(void*, unsigned long) (vg_replace_malloc.c:935)
-==1897==    by 0x109DD3: List<int>::~List() (list.h:168)
-==1897==    by 0x109BB5: main (main.cpp:87)
-==1897==  Block was alloc'd at
-==1897==    at 0x4840F2F: operator new(unsigned long) (vg_replace_malloc.c:422)
-==1897==    by 0x109E0D: List<int>::insertion(int) (list.h:196)
-==1897==    by 0x1093DC: main (main.cpp:48)
-==1897== 
-==1897== Invalid free() / delete / delete[] / realloc()
-==1897==    at 0x484399B: operator delete(void*, unsigned long) (vg_replace_malloc.c:935)
-==1897==    by 0x109DD3: List<int>::~List() (list.h:168)
-==1897==    by 0x109BC4: main (main.cpp:87)
-==1897==  Address 0x4d68d10 is 0 bytes inside a block of size 16 free'd
-==1897==    at 0x484399B: operator delete(void*, unsigned long) (vg_replace_malloc.c:935)
-==1897==    by 0x109DD3: List<int>::~List() (list.h:168)
-==1897==    by 0x109BB5: main (main.cpp:87)
-==1897==  Block was alloc'd at
-==1897==    at 0x4840F2F: operator new(unsigned long) (vg_replace_malloc.c:422)
-==1897==    by 0x109E0D: List<int>::insertion(int) (list.h:196)
-==1897==    by 0x1093DC: main (main.cpp:48)
-==1897== 
+==313== Memcheck, a memory error detector
+==313== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==313== Using Valgrind-3.19.0 and LibVEX; rerun with -h for copyright info
+==313== Command: ./a
+==313== 
 
 1.- esperada [2]
  programa [2]
@@ -58,41 +33,21 @@ success
 8.- esperada [13, 32]
  programa [13, 32]
 success
-==1897== 
-==1897== HEAP SUMMARY:
-==1897==     in use at exit: 0 bytes in 0 blocks
-==1897==   total heap usage: 6 allocs, 8 frees, 76,864 bytes allocated
-==1897== 
-==1897== All heap blocks were freed -- no leaks are possible
-==1897== 
-==1897== ERROR SUMMARY: 4 errors from 2 contexts (suppressed: 0 from 0)
-==1897== 
-==1897== 2 errors in context 1 of 2:
-==1897== Invalid free() / delete / delete[] / realloc()
-==1897==    at 0x484399B: operator delete(void*, unsigned long) (vg_replace_malloc.c:935)
-==1897==    by 0x109DD3: List<int>::~List() (list.h:168)
-==1897==    by 0x109BC4: main (main.cpp:87)
-==1897==  Address 0x4d68d10 is 0 bytes inside a block of size 16 free'd
-==1897==    at 0x484399B: operator delete(void*, unsigned long) (vg_replace_malloc.c:935)
-==1897==    by 0x109DD3: List<int>::~List() (list.h:168)
-==1897==    by 0x109BB5: main (main.cpp:87)
-==1897==  Block was alloc'd at
-==1897==    at 0x4840F2F: operator new(unsigned long) (vg_replace_malloc.c:422)
-==1897==    by 0x109E0D: List<int>::insertion(int) (list.h:196)
-==1897==    by 0x1093DC: main (main.cpp:48)
-==1897== 
-==1897== 
-==1897== 2 errors in context 2 of 2:
-==1897== Invalid read of size 8
-==1897==    at 0x109DB6: List<int>::~List() (list.h:167)
-==1897==    by 0x109BC4: main (main.cpp:87)
-==1897==  Address 0x4d68d18 is 8 bytes inside a block of size 16 free'd
-==1897==    at 0x484399B: operator delete(void*, unsigned long) (vg_replace_malloc.c:935)
-==1897==    by 0x109DD3: List<int>::~List() (list.h:168)
-==1897==    by 0x109BB5: main (main.cpp:87)
-==1897==  Block was alloc'd at
-==1897==    at 0x4840F2F: operator new(unsigned long) (vg_replace_malloc.c:422)
-==1897==    by 0x109E0D: List<int>::insertion(int) (list.h:196)
-==1897==    by 0x1093DC: main (main.cpp:48)
-==1897== 
-==1897== ERROR SUMMARY: 4 errors from 2 contexts (suppressed: 0 from 0)
+==313== 
+==313== HEAP SUMMARY:
+==313==     in use at exit: 16 bytes in 1 blocks
+==313==   total heap usage: 6 allocs, 5 frees, 76,864 bytes allocated
+==313== 
+==313== 16 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==313==    at 0x4840F2F: operator new(unsigned long) (vg_replace_malloc.c:422)
+==313==    by 0x109DF5: List<int>::insertion(int) (list.h:130)
+==313==    by 0x109282: main (main.cpp:41)
+==313== 
+==313== LEAK SUMMARY:
+==313==    definitely lost: 16 bytes in 1 blocks
+==313==    indirectly lost: 0 bytes in 0 blocks
+==313==      possibly lost: 0 bytes in 0 blocks
+==313==    still reachable: 0 bytes in 0 blocks
+==313==         suppressed: 0 bytes in 0 blocks
+==313== 
+==313== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

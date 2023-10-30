@@ -36,9 +36,13 @@ int main(int argc, char* argv[]) {
 	cout <<	(!ans.compare(heap.toString()) ? "success\n" : "fail\n");
 
 	heap.push(20);
+	cout << "current heap: " << heap.toString() << "\n";
 	heap.push(31);
+	cout << "current heap: " << heap.toString() << "\n";
 	heap.push(5);
+	cout << "current heap: " << heap.toString() << "\n";
 	heap.push(87);
+	cout << "current heap: " << heap.toString() << "\n";
 	ans ="[5 8 31 20 87]";
 	cout << "\n" <<"2.- esperada " << ans << "\n programa " << heap.toString() << "\n";
 	cout <<	(!ans.compare(heap.toString()) ? "success\n" : "fail\n");

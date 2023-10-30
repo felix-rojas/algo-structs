@@ -1,8 +1,8 @@
 /*
  * heap.h
  *
- *  Created on: 20/10/2015
- *      Author: clase
+ *  Created on: 19/10/2023
+ *      Author: clase + felix-rojas
  */
 
 #ifndef HEAP_H_
@@ -137,7 +137,7 @@ template <class T> std::string Heap<T>::toString() const {
     if (i != 1) {
       aux << " ";
     }
-    if (data[i] != 1)
+    if (data[i] != NULL)
       aux << data[i];
   }
   aux << "]";

@@ -11,55 +11,27 @@
 #include <stdexcept>
 #include <string>
 
-template <class T>
-class List;
+template <class T> class List;
 
 /**
  * @brief Node with templates for a single linked list
  */
-template <class T>
-class Node {
- private:
-  T value;
-  Node *next;
+template <class T> class Node {
   /**
    * @brief Create a node tha points to nullptr by default with a value
    * @param value Any data value that can be used in a template
    */
-  Node(T);
-  Node(T, Node<T> *);
-  Node(const Node<T> &);
-  Node &operator=(const Node &other);
-
-  friend class List<T>;
+public:
+  T value;
+  Node<T> *next;
+  Node(T new_value) : value(new_value) {}
 };
-
-template <class T>
-Node<T>::Node(T val) : value(val), next(nullptr) {}
-
-template <class T>
-Node<T>::Node(T val, Node *nxt) : value(val), next(nxt) {}
-
-template <class T>
-Node<T>::Node(const Node<T> &src) : value(src.value), next(src.next) {}
-
-template <class T>
-Node<T> &Node<T>::operator=(const Node &other) {
-  if (this != &other) {
-    // Copy the value
-    value = other.value;
-    // Copy the next pointer
-    next = other.next;
-  }
-  return *this;
-}
 
 /**
  * @brief Single Linked List data structure with a head and tail
  */
-template <class T>
-class List {
- private:
+template <class T> class List {
+private:
   /**
    * number of nodes in the list
    */
@@ -76,7 +48,7 @@ class List {
    */
   T deleteHead();
 
- public:
+public:
   /**
    * @brief Creates an empty list
    */
@@ -125,54 +97,18 @@ class List {
  * @section Method definitions
  */
 
-template <class T>
-List<T>::List() : head(nullptr), elements(0) {}
+template <class T> List<T>::List() : head(nullptr), elements(0) {}
 
-template <typename T>
-List<T>::List(const List<T> &other) {
-  // Initialize head and elements
-  head = nullptr;
-  elements = 0;
-
-  // Iterate through the nodes of 'other' and copy each node
-  Node<T> *otherCurrent = other.head;
-  Node<T> *prev = nullptr;
-
-  while (otherCurrent != nullptr) {
-    // Create a new node and copy the value
-    Node<T> *newNode = new Node<T>(otherCurrent->value);
-
-    // If it's the first node, set it as the head
-    if (prev == nullptr) {
-      head = newNode;
-    } else {
-      // Otherwise, link it to the previous node
-      prev->next = newNode;
-    }
-
-    // Update 'prev' and move to the next node in 'other'
-    prev = newNode;
-    otherCurrent = otherCurrent->next;
-
-    // Increase the element count
-    elements++;
-  }
-}
-
-template <class T>
-List<T>::~List() {
-  Node<T> *current = head;
-  while (current != nullptr) {
-    Node<T> *temp = current;
-    current = current->next;
+template <class T> List<T>::~List() {
+  while (head != nullptr) {
+    Node<T> *temp = head;
+    head = head->next;
     delete temp;
   }
-  head = nullptr;  // Set head to nullptr to indicate an empty list
-  elements = 0;    // Reset the number of elements to zero
+  elements = 0; // Reset the number of elements to zero
 }
 
-template <class T>
-std::string List<T>::toString() {
+template <class T> std::string List<T>::toString() {
   std::stringstream aux;
   Node<T> *p;
 
@@ -189,31 +125,29 @@ std::string List<T>::toString() {
   return aux.str();
 }
 
-
-template <typename T>
-void List<T>::insertion(T value) {
-  // Create a new node with the value
-  Node<T> *newNode = new Node<T>(value);
-  // If the list is empty, set the new node as the head
+template <typename T> void List<T>::insertion(T value) {
   if (elements == 0) {
-    head = newNode;
+    Node<T> *node = new Node<T>(value);
+    node->next = head;
+    head = node;
+    elements++;
   } else {
-    // Otherwise, traverse the list to find the last node
-    Node<T> *current = head;
-    while (current->next != nullptr) {
-      current = current->next;
+    Node<T> *prev = head;
+    for (int i = 0; i < elements - 1; ++i) {
+      prev = prev->next;
     }
-    // Attach the new node to the last node
-    current->next = newNode;
+    Node<T> *nextNode = prev->next;
+    Node<T> *node = new Node<T>(value);
+    node->next = nextNode;
+    prev->next = node;
+    elements++;
   }
-  // Increment the list size
-  elements++;
 }
 
-template <typename T>
-int List<T>::search(T element) {
+template <typename T> int List<T>::search(T element) {
   // empty list, lol
-  if (elements == 0) return -1;
+  if (elements == 0)
+    return -1;
 
   // counter
   int index = 0;
@@ -239,8 +173,7 @@ int List<T>::search(T element) {
   return index;
 }
 
-template <typename T>
-void List<T>::update(unsigned int index, T value) {
+template <typename T> void List<T>::update(unsigned int index, T value) {
   if (index > elements || index < 0) {
     throw;
   }
@@ -256,10 +189,10 @@ void List<T>::update(unsigned int index, T value) {
 }
 
 // deletes the first element
-template <typename T>
-T List<T>::deleteHead() {
+template <typename T> T List<T>::deleteHead() {
   // Do nothing if empty
-  if (elements == 0) return -1;
+  if (elements == 0)
+    return -1;
 
   // Save head to node
   Node<T> *node = head;
@@ -275,13 +208,14 @@ T List<T>::deleteHead() {
   return head->value;
 }
 
-template <typename T>
-T List<T>::deleteAt(unsigned int index) {
+template <typename T> T List<T>::deleteAt(unsigned int index) {
   // cant delete with no elements
-  if (elements == 0) return -1;
+  if (elements == 0)
+    return -1;
 
   // index is out of bound
-  if (index < 0 || index >= elements) return -1;
+  if (index < 0 || index >= elements)
+    return -1;
 
   // removing first element
   if (index == 0) {
@@ -316,4 +250,4 @@ T List<T>::deleteAt(unsigned int index) {
   }
 }
 
-#endif  // LIST_H
+#endif // LIST_H
