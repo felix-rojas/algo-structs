@@ -7,210 +7,241 @@
 
 #ifndef Splay_H_
 #define Splay_H_
-
-#include <string>
-#include <sstream>
 #include <iostream>
+#include <sstream>
+#include <string>
 
-using namespace std;
-
-template <class T>class SplayTree;
-
-template <class T>
-class Node {
+template <class T> class SplayTree {
 private:
-	T value;
-	Node *left, *right, *parent;
+  struct Node {
+    T key;
+    Node *parent;
+    Node *left;
+    Node *right;
+
+    Node(T key, Node *parent = nullptr)
+        : key(key), parent(parent), left(nullptr), right(nullptr) {}
+  };
+
+  Node *root;
+
+  void splay(Node *node) {
+    while (node->parent != nullptr) {
+      Node *parent = node->parent;
+      Node *grandparent = parent->parent;
+
+      if (grandparent == nullptr) {
+        if (node == parent->left) {
+          rotateRight(parent);
+        } else {
+          rotateLeft(parent);
+        }
+      } else {
+        if (node == parent->left && parent == grandparent->left) {
+          rotateRight(grandparent);
+          rotateRight(parent);
+        } else if (node == parent->right && parent == grandparent->right) {
+          rotateLeft(grandparent);
+          rotateLeft(parent);
+        } else if (node == parent->left && parent == grandparent->right) {
+          rotateRight(parent);
+          rotateLeft(grandparent);
+        } else {
+          rotateLeft(parent);
+          rotateRight(grandparent);
+        }
+      }
+    }
+    root = node;
+  }
+
+  // Perform a right rotation on the given node
+  void rotateRight(Node *node) {
+    Node *leftChild = node->left;
+    if (leftChild != nullptr) {
+      node->left = leftChild->right;
+      if (leftChild->right != nullptr) {
+        leftChild->right->parent = node;
+      }
+      leftChild->parent = node->parent;
+      if (node->parent == nullptr) {
+        root = leftChild;
+      } else if (node == node->parent->left) {
+        node->parent->left = leftChild;
+      } else {
+        node->parent->right = leftChild;
+      }
+      leftChild->right = node;
+      node->parent = leftChild;
+    }
+  }
+
+  // Perform a left rotation on the given node
+  void rotateLeft(Node *node) {
+    Node *rightChild = node->right;
+    if (rightChild != nullptr) {
+      node->right = rightChild->left;
+      if (rightChild->left != nullptr) {
+        rightChild->left->parent = node;
+      }
+      rightChild->parent = node->parent;
+      if (node->parent == nullptr) {
+        root = rightChild;
+      } else if (node == node->parent->left) {
+        node->parent->left = rightChild;
+      } else {
+        node->parent->right = rightChild;
+      }
+      rightChild->left = node;
+      node->parent = rightChild;
+    }
+  }
+
+  Node *searchNode(T key) {
+    if (root == nullptr) {
+      return nullptr;
+    }
+
+    Node *current = root;
+    while (current != nullptr) {
+      if (key < current->key) {
+        current = current->left;
+      } else if (key > current->key) {
+        current = current->right;
+      } else {
+        return current;
+      }
+    }
+
+    return nullptr; // Key not found
+  }
+
+  Node *findMax(Node *node) {
+    while (node->right != nullptr) {
+      node = node->right;
+    }
+    return node;
+  }
+
 public:
-	Node(T val) : value(val), left(0), right(0) {}
-	Node(T val, Node<T> *le, Node<T> *ri)
-		: value(val), left(le), right(ri) {}
-	friend class SplayTree<T>;
+  SplayTree() : root(nullptr) {}
+
+  // Insert a key into the splay tree
+  void add(T key) {
+    if (root == nullptr) {
+      root = new Node(key);
+      return;
+    }
+
+    Node *current = root;
+    Node *parent = nullptr;
+
+    while (current != nullptr) {
+      parent = current;
+      if (key < current->key) {
+        current = current->left;
+      } else if (key > current->key) {
+        current = current->right;
+      } else {
+        return;
+      }
+    }
+
+    Node *newNode = new Node(key, parent);
+
+    if (key < parent->key) {
+      parent->left = newNode;
+    } else {
+      parent->right = newNode;
+    }
+
+    splay(newNode);
+  }
+
+  // Search for a key in the splay tree
+  bool find(T key) {
+    if (root == nullptr) {
+      return false;
+    }
+
+    Node *current = root;
+    while (current != nullptr) {
+      if (key < current->key) {
+        current = current->left;
+      } else if (key > current->key) {
+        current = current->right;
+      } else {
+        splay(current);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  // Remove a key from the splay tree
+  void remove(int key) {
+    if (root == nullptr) {
+      return;
+    }
+
+    Node *toRemove = searchNode(key);
+
+    if (toRemove == nullptr) {
+      return; // Key not found
+    }
+
+    splay(toRemove);
+
+    if (toRemove->left == nullptr) {
+      root = toRemove->right;
+      if (toRemove->right != nullptr) {
+        toRemove->right->parent = nullptr;
+      }
+    } else {
+      Node *maxLeft = findMax(toRemove->left);
+      maxLeft->right = toRemove->right;
+      if (toRemove->right != nullptr) {
+        toRemove->right->parent = maxLeft;
+      }
+      root = toRemove->left;
+      toRemove->left->parent = nullptr;
+    }
+
+    delete toRemove;
+  }
+
+  std::string inorder() {
+    std::stringstream aux;
+    inorder(root, aux);
+    std::string res = aux.str();
+    res.pop_back();
+    return "[" + res + "]";
+  }
+
+  void inorder(Node *node, std::stringstream &aux) {
+    if (node != nullptr) {
+      inorder(node->left, aux);
+      aux << node->key << " ";
+      inorder(node->right, aux);
+    }
+  }
+
+  std::string preorder() {
+    std::stringstream aux;
+    preorder(root, aux);
+    std::string res = aux.str();
+    res.pop_back();
+    return "[" + res + "]";
+  }
+
+  void preorder(Node *node, std::stringstream &aux) {
+    if (node != nullptr) {
+      aux << node->key << " ";
+      preorder(node->left, aux);
+      preorder(node->right, aux);
+    }
+  }
 };
-
-template <class T>
-class SplayTree {
-public:
-	SplayTree(){}
-	Node<T>* rot_right(Node<T>*);
-	Node<T>* rot_left(Node<T>*);
-	Node<T>* splay(T, Node<T>*);
-	Node<T>* new_node(T);
-	Node<T>* add(T, Node<T>*);
-	Node<T>* remove(T, Node<T>*);
-	Node<T>* find(T, Node<T>*);
-	void inorder(Node<T>*);
-
-};
-
-template <class T>
-Node<T>* SplayTree<T>::rot_right(Node<T>* x){
-	Node<T> *y = x->left;
-	x->left = y->right;
-	y->right = x;
-	return y;
-}
-
-template <class T>
-Node<T>* SplayTree<T>::rot_left(Node<T>* x){
-	Node<T> *y = x->right;
-	x->right = y->left;
-	y->left = x;
-	return y;
-}
-
-template <class T>
-Node<T>* SplayTree<T>::splay(T val, Node<T>* root){
-	if(root == NULL)
-		return NULL;
-
-	Node<T> temp(0);
-	temp.left = NULL;
-	temp.right = NULL;
-
-	Node<T>* left_sub_tree = &temp;
-	Node<T>* right_sub_tree = &temp;
-
-	while(1){
-		if(val < root->value){
-			if(root->left == NULL)
-				break;
-			if(val < root->left->value){
-				root = rot_right(root);
-				if(root->left == NULL)
-					break;
-			}
-			/*se recorren los nodos,
-			right_sub_tree pasa a apuntar al nodo de root por su left
-			y root pasa a apuntar a su hijo left*/
-			right_sub_tree->left = root;
-			right_sub_tree = right_sub_tree->left;
-			root = root->left;
-			right_sub_tree->left = NULL;
-		}else if(val > root->value){
-			if(root->right == NULL)
-				break;
-			if(val > root->right->value){
-				root = rot_left(root);
-				if(root == NULL)
-					break;
-			}
-			/*se recorren los nodos,
-			left_sub_tree pasa a apuntar al nodo de root por su right
-			y root pasa a apuntar a su hijo right*/
-			left_sub_tree->right = root;
-			left_sub_tree = left_sub_tree->right;
-			root = root->right;
-			left_sub_tree->right = NULL;
-		}
-		else
-			break;
-	}
-	/*Pegamos ambos lados del arbol:
-	left_sub_tree y right_sub_tree al nuevo root
-	primero ponemos los sub arboles que quedaron volando o pendientes*/
-	left_sub_tree->right = root->left;
-	right_sub_tree->left = root->right;
-	root->left = temp.right;
-	root->right = temp.left;
-
-	if(left_sub_tree){
-		if(left_sub_tree->left)cout<< "left_sub_tree left " << left_sub_tree->left->value << endl;
-		if(left_sub_tree->right)cout<< "left_sub_tree right " << left_sub_tree->right->value << endl;
-	}
-	if(right_sub_tree){
-		if(right_sub_tree->left)cout<< "right_sub_tree left " << right_sub_tree->left->value << endl;
-		if(right_sub_tree->right)cout<< "right_sub_tree right " << right_sub_tree->right->value << endl;
-	}
-	if(temp.left)cout<< "temp left " << temp.left->value << endl;
-	if(temp.right)cout<< "temp right " << temp.right->value << endl;
-	cout<< "root value " << root->value << endl << endl;
-
-	return root;
-}
-
-template <class T>
-Node<T>* SplayTree<T>::new_node(T val){
-	Node<T>* p_node = new Node<T>(val);
-	if(p_node == NULL)
-	{
-		//throw exception
-	}
-	return p_node;
-}
-
-template <class T>
-Node<T>* SplayTree<T>::add(T val, Node<T>* root) {
-
-	Node<T>* p_node  = new_node(val);
-
-	if(root == NULL){
-		root = p_node;
-		p_node = NULL;
-		return root;
-	}
-	root = splay(val, root);
-	cout<<"root = splay(val, root); "<< root->value <<"\n";
-
-	/*Splay Top-Down approach:
-	El nuveo nodo se inserta como raiz y la raiz para a ser un subarbol*/
-	if(val < root->value) {
-		p_node->left = root->left;
-		p_node->right = root;
-		root->left = NULL;
-		root = p_node;
-	} else if(val > root->value) {
-		p_node->right = root->right;
-		p_node->left = root;
-		root->right = NULL;
-		root = p_node;
-	} else {
-		return root;
-	}
-	p_node = NULL;
-	return root;
-}
-
-template <class T>
-Node<T>* SplayTree<T>::remove(T val, Node<T>* root) {
-	Node<T> *temp;
-
-	if(root == NULL)
-		return NULL;
-
-	root = splay(val, root);
-
-	if(val != root->value)
-		return root;
-	else{
-		temp = root;
-		root = splay(val, root->left);
-		root->right = temp->right;
-	}
-
-	free(temp);
-	return root;
-}
-
-template <class T>
-Node<T>* SplayTree<T>::find(T val, Node<T>* root) {
-	return splay(val, root);
-}
-
-template <class T>
-void SplayTree<T>::inorder(Node<T>* root)
-{
-		if (root)
-		{
-				inorder(root->left);
-				cout<< "key: " <<root->value;
-				if(root->left)
-						cout<< " | left child: "<< root->left->value;
-				if(root->right)
-						cout << " | right child: " << root->right->value;
-				cout<< "\n";
-				inorder(root->right);
-		}
-}
 
 #endif /* Splay_H_ */
