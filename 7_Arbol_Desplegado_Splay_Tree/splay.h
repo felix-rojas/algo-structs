@@ -14,13 +14,13 @@
 template <class T> class SplayTree {
 private:
   struct Node {
-    T key;
+    T value;
     Node *parent;
     Node *left;
     Node *right;
 
-    Node(T key, Node *parent = nullptr)
-        : key(key), parent(parent), left(nullptr), right(nullptr) {}
+    Node(T value, Node *parent = nullptr)
+        : value(value), parent(parent), left(nullptr), right(nullptr) {}
   };
 
   Node *root;
@@ -97,23 +97,21 @@ private:
     }
   }
 
-  Node *searchNode(T key) {
+  Node *searchNode(T value) {
     if (root == nullptr) {
       return nullptr;
     }
-
     Node *current = root;
     while (current != nullptr) {
-      if (key < current->key) {
+      if (value < current->value) {
         current = current->left;
-      } else if (key > current->key) {
+      } else if (value > current->value) {
         current = current->right;
       } else {
         return current;
       }
     }
-
-    return nullptr; // Key not found
+    return nullptr; // value not found
   }
 
   Node *findMax(Node *node) {
@@ -123,13 +121,51 @@ private:
     return node;
   }
 
+  // Join two subtrees
+  // maximum node of left subtree is less
+  // than min node of right subtree
+  Node *join(Node *leftSubtree, Node *rightSubtree) {
+    if (leftSubtree == nullptr) {
+      return rightSubtree;
+    }
+    if (rightSubtree == nullptr) {
+      return leftSubtree;
+    }
+
+    Node *maxLeft = findMax(leftSubtree);
+    splay(maxLeft);
+    maxLeft->right = rightSubtree;
+    rightSubtree->parent = maxLeft;
+
+    return maxLeft;
+  }
+
 public:
   SplayTree() : root(nullptr) {}
 
-  // Insert a key into the splay tree
-  void add(T key) {
+  // debug function to print tree
+  void print() { print(root, 0); }
+
+  void print(Node *node, int indent) {
+    if (node == nullptr) {
+      return;
+    }
+
+    print(node->right, indent + 4);
+
+    for (int i = 0; i < indent; i++) {
+      std::cout << " ";
+    }
+
+    std::cout << node->value << std::endl;
+
+    print(node->left, indent + 4);
+  }
+
+  // Insert a value into the splay tree
+  void add(T value) {
     if (root == nullptr) {
-      root = new Node(key);
+      root = new Node(value);
       return;
     }
 
@@ -138,18 +174,18 @@ public:
 
     while (current != nullptr) {
       parent = current;
-      if (key < current->key) {
+      if (value < current->value) {
         current = current->left;
-      } else if (key > current->key) {
+      } else if (value > current->value) {
         current = current->right;
       } else {
         return;
       }
     }
 
-    Node *newNode = new Node(key, parent);
+    Node *newNode = new Node(value, parent);
 
-    if (key < parent->key) {
+    if (value < parent->value) {
       parent->left = newNode;
     } else {
       parent->right = newNode;
@@ -158,57 +194,57 @@ public:
     splay(newNode);
   }
 
-  // Search for a key in the splay tree
-  bool find(T key) {
+  // Search for a value in the splay tree
+  bool find(T value) {
     if (root == nullptr) {
       return false;
     }
 
     Node *current = root;
     while (current != nullptr) {
-      if (key < current->key) {
+      if (value < current->value) {
         current = current->left;
-      } else if (key > current->key) {
+      } else if (value > current->value) {
         current = current->right;
       } else {
+        // value found, splay tree
         splay(current);
         return true;
       }
     }
-
     return false;
   }
 
-  // Remove a key from the splay tree
-  void remove(int key) {
+  // Remove a value from the splay tree
+  void remove(T value) {
+    // cant splay an empty tree
     if (root == nullptr) {
       return;
     }
 
-    Node *toRemove = searchNode(key);
+    Node *toRemove = searchNode(value);
 
     if (toRemove == nullptr) {
-      return; // Key not found
+      return; // value not found
     }
 
+    // splay tree, toRemove is the new root
     splay(toRemove);
 
-    if (toRemove->left == nullptr) {
-      root = toRemove->right;
-      if (toRemove->right != nullptr) {
-        toRemove->right->parent = nullptr;
-      }
-    } else {
-      Node *maxLeft = findMax(toRemove->left);
-      maxLeft->right = toRemove->right;
-      if (toRemove->right != nullptr) {
-        toRemove->right->parent = maxLeft;
-      }
-      root = toRemove->left;
-      toRemove->left->parent = nullptr;
+    // remove the root
+    Node *leftSubtree = root->left;
+    Node *rightSubtree = root->right;
+    delete root;
+
+    // left and right subtrees as new root
+    if (leftSubtree != nullptr) {
+      leftSubtree->parent = nullptr;
+    }
+    if (rightSubtree != nullptr) {
+      rightSubtree->parent = nullptr;
     }
 
-    delete toRemove;
+    root = join(leftSubtree, rightSubtree);
   }
 
   std::string inorder() {
@@ -222,7 +258,7 @@ public:
   void inorder(Node *node, std::stringstream &aux) {
     if (node != nullptr) {
       inorder(node->left, aux);
-      aux << node->key << " ";
+      aux << node->value << " ";
       inorder(node->right, aux);
     }
   }
@@ -237,7 +273,7 @@ public:
 
   void preorder(Node *node, std::stringstream &aux) {
     if (node != nullptr) {
-      aux << node->key << " ";
+      aux << node->value << " ";
       preorder(node->left, aux);
       preorder(node->right, aux);
     }

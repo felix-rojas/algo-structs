@@ -1,0 +1,50 @@
+
+1.- esperada [15]
+ programa [15]
+success
+
+2.- esperada [7 10 13 15 16 17]
+ programa [7 10 13 15 16 17]
+success
+
+2.- esperada [16 13 7 10 15 17]
+ programa [16 13 7 10 15 17]
+success
+
+3.- esperada [7 10 13 15 16 17]
+ programa [7 10 13 15 16 17]
+success
+
+3.- esperada [15 13 7 10 16 17]
+ programa [15 13 7 10 16 17]
+success
+
+3.- esperada 1 programa 1
+success
+
+4.- esperada [7 10 13 15 16 17]
+ programa [7 10 13 15 16 17]
+success
+
+4.- esperada [17 16 15 13 7 10]
+ programa [17 16 15 13 7 10]
+success
+
+4.- esperada 1 programa 1
+success
+
+5.- esperada [7 10 15 16 17]
+ programa [7 10 15 16 17]
+success
+
+5.- esperada [15 7 10 16 17]
+ programa [7 10 17 15 16]
+fail
+
+6.- esperada [7 10 15 17]
+ programa [7 10 15 17]
+success
+
+6.- esperada [15 7 10 17]
+ programa [10 7 15 17]
+fail
