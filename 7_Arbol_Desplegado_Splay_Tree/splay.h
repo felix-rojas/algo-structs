@@ -207,8 +207,13 @@ public:
         current = current->right;
       } else {
         // value found, splay tree
+        // it has to be splayed regardless
         splay(current);
-        return true;
+        if (current->value == value) {
+          return true;
+        } else {
+          return false;
+        }
       }
     }
     return false;

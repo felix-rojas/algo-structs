@@ -1,10 +1,24 @@
 # TC1031_Estructuras_Formativas
 
-Estas actividades son para que practiques la implementación de algoritmos y estructuras de datos. Se basan en las actividades y programas desarrollados en clase, pero tienen pequeñas diferencias para garantizar que no copies y pegues el código ciegamente sin entenderlo.
+Estas actividades son para practicar la implementación de algoritmos y estructuras de datos. Se basan en las actividades y programas desarrollados en clase.
 
-Cuando tengas que entregar la actividad en canvas por favor solo entrega el archivo.h que lleva el nombre del algoritmo o estructura como se viene en el encabezado del main.
+## Ejercicios a corregir
 
-Los cambios que puedes esperar son: 
-el manejo de excepciones, 
-los casos de prueba, 
-los formatos de entrada y salida de algunas funciones.
+- [x] Lista lineal simple
+- [ ] BST Visit
+- [ ] Splay Tree Find
+
+
+# Problemas de coding
+
+## Estructura no lineal
+#### Copos de Nieve - DMOJ cco07p2
+https://youtu.be/NRJm98UJRx4
+
+## Estructura lineal
+### Cruce de Cables - Codeforces 343B
+https://youtu.be/88NOuPiR1uA
+
+## Ordenamiento
+### Game - Codeforces 984A
+https://youtu.be/U6lD97wB_ac
