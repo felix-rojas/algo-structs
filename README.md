@@ -6,7 +6,7 @@ Estas actividades son para practicar la implementación de algoritmos y estructu
 
 - [x] Lista lineal simple
 - [ ] BST Visit
-- [ ] Splay Tree Find
+- [x] Splay Tree Find
 
 
 # Problemas de coding
