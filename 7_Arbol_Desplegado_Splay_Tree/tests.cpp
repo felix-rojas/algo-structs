@@ -118,6 +118,12 @@ int main(int argc, char *argv[]) {
     my_splay_test.print();
     cout << ("------------ \n");
     cout << endl;
+
+    cout << ("Testing value removal: ") << endl;
+    my_splay_test.remove(test_value);
+    cout << ("Tree status: \n");
+    my_splay_test.print();
+    cout << ("------------ \n");
   }
 
   for (int i = 0; i < test_times; i++) {

@@ -1,1 +1,1 @@
-g++ -std=c++17 -Wall -g -Werror tests.cpp -o a
+g++ -std=c++17 -Wall -g -Werror tests.cpp -o a && valgrind --leak-check=full ./a
