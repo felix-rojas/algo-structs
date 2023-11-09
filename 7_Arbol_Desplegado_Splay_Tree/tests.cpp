@@ -1,8 +1,8 @@
 /*
  * tests.cpp
  *
- *  Created on: 30/10/2020
- *      Author: clase
+ *  Created on: 9/11/2023
+ *      Author: felix-rojas
  */
 
 #include "splay.h"
@@ -136,23 +136,106 @@ int main(int argc, char *argv[]) {
 
     for (int i = 0; i < 5; i++) {
       my_splay_insertions.add(test_array[i]);
-      cout << "Insertion of: " << test_array[i] << "-. Tree status " << endl;
+      cout << "Insertion of: [ " << test_array[i] << " ] Tree status " << endl;
       my_splay_insertions.print();
       cout << ("------------ \n");
     }
     cout << endl;
 
     cout << ("-----------------------------------------") << endl;
-    cout << ("--- Sequential deletions test on tree ---") << endl;
+    cout << ("--- Deletions test on tree ---") << endl;
     cout << ("-----------------------------------------") << endl;
+
+    cout << ("Status before deletion: ") << endl;
+    my_splay_insertions.print();
+    cout << ("------------ \n");
 
     for (int i = 0; i < 5; i++) {
       my_splay_insertions.remove(test_array[i]);
-      cout << "Deletion of: " << test_array[i] << "-. Tree status " << endl;
+      cout << "Deletion of: [ " << test_array[i] << " ] Tree status " << endl;
       my_splay_insertions.print();
       cout << ("------------ \n");
     }
+    cout << ("Status after deletion: ") << endl;
+    my_splay_insertions.print();
+    cout << ("------------ \n");
+
     cout << endl;
+
+    cout << ("-----------------------------------------") << endl;
+    cout << ("--- Insertion - deletion test on tree ---") << endl;
+    cout << ("-----------------------------------------") << endl;
+
+    for (int i = 0; i < 5; i++) {
+      cout << "Insertion of: [ " << test_array[i] << " ] Tree status " << endl;
+      my_splay_insertions.add(test_array[i]);
+      my_splay_insertions.print();
+      cout << ("------------ \n");
+
+      cout << "Deletion of: [ " << test_array[i] << " ] Tree status " << endl;
+      my_splay_insertions.remove(test_array[i]);
+      my_splay_insertions.print();
+      cout << ("------------ \n");
+    }
+
+    cout << ("Status after insertion - deletion: ") << endl;
+    my_splay_insertions.print();
+    cout << ("------------ \n");
+    cout << endl;
+
+    cout << ("-----------------------------------------") << endl;
+    cout << ("--- Sequential insertion test on tree ---") << endl;
+    cout << ("-----------------------------------------") << endl;
+
+    for (int i = 0; i < 10; i++) {
+      cout << "Insertion of: [ " << i << " ] Tree status " << endl;
+      my_splay_insertions.add(i);
+      my_splay_insertions.print();
+      cout << ("------------ \n");
+    }
+
+    cout << ("Status after sequential insertion: ") << endl;
+    my_splay_insertions.print();
+    cout << ("------------ \n");
+    cout << endl;
+
+    cout << ("-----------------------------------------") << endl;
+    cout << ("--- Sequential deletion test on tree ---") << endl;
+    cout << ("-----------------------------------------") << endl;
+
+    for (int i = 0; i < 10; i++) {
+      cout << "Deletion of: [ " << i << " ] Tree status " << endl;
+      my_splay_insertions.remove(i);
+      my_splay_insertions.print();
+      cout << ("------------ \n");
+    }
+
+    cout << ("Status after sequential deletion: ") << endl;
+    my_splay_insertions.print();
+    cout << ("------------ \n");
+    cout << endl;
+
+    cout << ("------------------------------------------------") << endl;
+    cout << ("--- Sequential insertion - find test on tree ---") << endl;
+    cout << ("------------------------------------------------") << endl;
+
+    for (int i = 0; i < 10; i++) {
+      cout << "Insertion of: [ " << i << " ] Tree status " << endl;
+      my_splay_insertions.add(i);
+      cout << ("------------ \n");
+    }
+
+    cout << ("Status before sequential insertion: ") << endl;
+    my_splay_insertions.print();
+    cout << ("------------ \n");
+    cout << endl;
+
+    for (int i = 0; i < 10; i++) {
+      cout << "Find: [ " << i << " ] Tree status " << endl;
+      my_splay_insertions.find(i);
+      my_splay_insertions.print();
+      cout << ("------------ \n");
+    }
   }
 
   SplayTree<int> my_splay;

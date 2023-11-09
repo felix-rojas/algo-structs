@@ -143,7 +143,13 @@ public:
   SplayTree() : root(nullptr) {}
 
   // debug function to print tree
-  void print() { print(root, 0); }
+  void print() {
+    if (root == nullptr) {
+      std::cout << "Empty tree" << std::endl;
+    } else {
+      print(root, 0);
+    }
+  }
 
   void print(Node *node, int indent) {
     if (node == nullptr) {
