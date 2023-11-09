@@ -1,6 +1,7 @@
 *.out
 .vscode*
 *.log
+*.exe
 .vs/slnx.sqlite
 .vs/tasks.vs.json
 .vs/VSWorkspaceState.json

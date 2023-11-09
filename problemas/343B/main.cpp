@@ -5,16 +5,6 @@
 
 std::stack<std::pair<char, char>> dll;
 std::string input;
-
-void print_list(const std::stack<std::pair<char, char>> &dll) {
-  std::stack<std::pair<char, char>> copy = dll;
-  while (!copy.empty()) {
-    std::cout << copy.top().second << " " << copy.top().first << " ";
-    copy.pop();
-  }
-  std::cout << std::endl;
-}
-
 bool check_collapsed(const std::stack<std::pair<char, char>> &dll) {
   if (dll.size() == 1 && dll.top().first == dll.top().second)
     return true;
@@ -57,7 +47,6 @@ int main() {
           }
         }
       }
-      // print_list(dll);
       if (check_collapsed(dll))
         std::cout << "Yes" << std::endl;
       else
