@@ -120,6 +120,41 @@ int main(int argc, char *argv[]) {
     cout << endl;
   }
 
+  for (int i = 0; i < test_times; i++) {
+    SplayTree<int> my_splay_insertions;
+    cout << ("-------------------------------") << endl;
+    cout << ("--- Insertions test on tree ---") << endl;
+    cout << ("-------------------------------") << endl;
+
+    int test_array[] = {10, 17, 7, 13, 16};
+    cout << "Testing array: " << endl;
+    cout << "[ ";
+    for (int i = 0; i < 5; i++) {
+      cout << test_array[i] << " ";
+    }
+    cout << "]" << endl;
+
+    for (int i = 0; i < 5; i++) {
+      my_splay_insertions.add(test_array[i]);
+      cout << "Insertion of: " << test_array[i] << "-. Tree status " << endl;
+      my_splay_insertions.print();
+      cout << ("------------ \n");
+    }
+    cout << endl;
+
+    cout << ("-----------------------------------------") << endl;
+    cout << ("--- Sequential deletions test on tree ---") << endl;
+    cout << ("-----------------------------------------") << endl;
+
+    for (int i = 0; i < 5; i++) {
+      my_splay_insertions.remove(test_array[i]);
+      cout << "Deletion of: " << test_array[i] << "-. Tree status " << endl;
+      my_splay_insertions.print();
+      cout << ("------------ \n");
+    }
+    cout << endl;
+  }
+
   SplayTree<int> my_splay;
   my_splay.add(15);
 
