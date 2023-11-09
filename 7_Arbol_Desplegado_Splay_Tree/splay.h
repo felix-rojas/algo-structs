@@ -188,12 +188,11 @@ public:
 
     Node *newNode = new Node(value, parent);
 
-    if (value < parent->value) {
+    if (value <= parent->value) {
       parent->left = newNode;
     } else {
       parent->right = newNode;
     }
-
     splay(newNode);
   }
 
