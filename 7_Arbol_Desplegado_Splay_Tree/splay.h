@@ -179,13 +179,11 @@ public:
 
     while (current != nullptr) {
       parent = current;
-      if (value < current->value) {
+      if (value <= current->value) {
         current = current->left;
-      } else if (value > current->value) {
-        current = current->right;
       } else {
-        return;
-      }
+        current = current->right;
+      } 
     }
 
     Node *newNode = new Node(value, parent);
