@@ -292,5 +292,62 @@ int main(int argc, char *argv[]) {
       my_splay_insertions.print();
       cout << ("------------ \n");
     }
+
+    cout << ("-----------------------------------------") << endl;
+    cout << ("--- Class test ---") << endl;
+    cout << ("-----------------------------------------") << endl;
+
+    SplayTree<int> class_splay;
+    bool class_found;
+    class_splay.add(15);
+
+    cout << ("Status after single add: ") << endl;
+    class_splay.print();
+    cout << ("------------ \n");
+    cout << endl;
+
+    class_splay.add(10);
+    class_splay.add(17);
+    class_splay.add(7);
+    class_splay.add(13);
+    class_splay.add(16);
+
+    cout << ("Status after list add: ") << endl;
+    class_splay.print();
+    cout << ("------------ \n");
+    cout << endl;
+
+    class_found = class_splay.find(15);
+    class_found ? cout << "Found value 15" << endl
+                : cout << "Value 15 NOT found" << endl;
+    cout << ("Status after find 15: ") << endl;
+    class_splay.print();
+    cout << ("------------ \n");
+    cout << endl;
+
+    class_found = class_splay.find(17);
+    class_found ? cout << "Found value 17" << endl
+                : cout << "Value 17 NOT found" << endl;
+    cout << ("Status after find 17: ") << endl;
+    class_splay.print();
+    cout << ("------------ \n");
+    cout << endl;
+
+    cout << ("Status before remove 13: ") << endl;
+    class_splay.print();
+    cout << ("------------ \n");
+    cout << endl;
+
+    class_splay.remove(13);
+    cout << ("Status after remove 13: ") << endl;
+    class_splay.print();
+    cout << ("------------ \n");
+    cout << endl;
+
+    class_splay.remove(16);
+    cout << ("Status after remove 16: ") << endl;
+    class_splay.print();
+    cout << ("------------ \n");
+    cout << endl;
   }
 }

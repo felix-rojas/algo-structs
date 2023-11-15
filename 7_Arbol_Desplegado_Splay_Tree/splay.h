@@ -254,6 +254,15 @@ public:
     root = join(leftSubtree, rightSubtree);
   }
 
+  void clean() {
+    if (root->left != nullptr) {
+      
+    }
+    if (root->right != nullptr) {
+
+    }
+  }
+
   std::string inorder() {
     std::stringstream aux;
     inorder(root, aux);
