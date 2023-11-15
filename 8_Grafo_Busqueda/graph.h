@@ -235,10 +235,8 @@ string Graph::breadthHelper(int current, int goal, queue<int> &qu,
     qu.pop();
     visited.push_back(current);
     for (int i = 0; i < adjList[current].size(); i++) {
-      if (!contains(visited, adjList[current][i])) {
         qu.push(adjList[current][i]);
         paths[adjList[current][i]][0] = current;
-      }
     }
     return breadthHelper(current, goal, qu, visited, paths);
   }
