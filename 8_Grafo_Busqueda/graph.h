@@ -21,7 +21,6 @@ private:
   int nodes;
   vector<int> *adjList;
   int *adjMatrix;
-  // vector<Type> *vect = new vector<Type>
 
 public:
   Graph(int);
@@ -189,41 +188,13 @@ string Graph::depthHelper(int current, int goal, stack<int> &st,
 string Graph::BFS(int start, int goal) {
   queue<int> qu;
   list<int> visited;
-  vector<vector<int>> paths(nodes, vector<int>(1, -1));
+  vector<vector<int>> paths(nodes, vector<int>(0));
   qu.push(start);
   string visits = breadthHelper(start, goal, qu, visited, paths);
   string path = print_path(paths, start, goal);
   return visits + path;
 }
 
-/*
-string Graph::breadthHelper(int current, int goal, queue<int> &qu,
-                            list<int> &visited, vector<int> &paths) {
-  if (current == goal) {
-    return print_path_q(visited);
-  } else if (qu.empty())
-    return "Node not found";
-  else {
-    qu.pop();
-    visited.push_back(current);
-    for (auto i : adjList[current]) {
-      if (i == goal) {
-        visited.push_back(i);
-      }
-      auto it = find(paths.begin(), paths.end(), i);
-      if (i != *it) {
-        paths.push_back(i);
-      }
-      qu.push(i);
-    }
-    if (visited.back() == goal) {
-      return breadthHelper(visited.back(), goal, qu, visited, paths);
-    } else {
-      return breadthHelper(qu.front(), goal, qu, visited, paths);
-    }
-  }
-}
-*/
 string Graph::breadthHelper(int current, int goal, queue<int> &qu,
                             list<int> &visited, vector<vector<int>> &paths) {
   if (current == goal)
@@ -235,8 +206,10 @@ string Graph::breadthHelper(int current, int goal, queue<int> &qu,
     qu.pop();
     visited.push_back(current);
     for (int i = 0; i < adjList[current].size(); i++) {
+      if (!contains(visited, adjList[current][i])) {
         qu.push(adjList[current][i]);
-        paths[adjList[current][i]][0] = current;
+        paths[adjList[current][i]].push_back(current);
+      }
     }
     return breadthHelper(current, goal, qu, visited, paths);
   }
