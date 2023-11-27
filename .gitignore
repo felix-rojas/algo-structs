@@ -12,3 +12,7 @@
 *.xml
 */test
 *.clang*
+/problemas/343B/a
+/problemas/343B/ans.txt
+/problemas/343B/input.txt
+/problemas/cco07p2/test
