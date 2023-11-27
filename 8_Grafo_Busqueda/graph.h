@@ -42,7 +42,9 @@ public:
   bool contains(list<int>, int);
   void sortAdjList();
   void loadGraphList(string, int, int);
+  void loadGraphList(string, int);
   void loadGraphMat(string, int, int);
+  void loadGraphMat(string, int);
 };
 
 void Graph::loadGraphList(string name, int a, int b) {
@@ -64,7 +66,48 @@ void Graph::loadGraphList(string name, int a, int b) {
   sortAdjList();
 }
 
+void Graph::loadGraphList(string name, int a) {
+  int b = a;
+  adjList = new vector<int>[a];
+  nodes = a;
+  string line;
+  ifstream lee(name);
+  int u, v;
+  if (lee.is_open()) {
+    while (getline(lee, line)) {
+      u = stoi(line.substr(1, 1));
+      v = stoi(line.substr(4, 1));
+      addEdgeAdjList(u, v);
+    }
+    lee.close(); // Closes the file
+  } else {
+    cout << "Unable to open file";
+  }
+  sortAdjList();
+}
+
 void Graph::loadGraphMat(string name, int a, int b) {
+  adjMatrix = new int[a * b];
+  nodes = a;
+  for (int i = 0; i < a * b; i++)
+    adjMatrix[i] = 0;
+  string line;
+  ifstream lee(name);
+  int u, v;
+  if (lee.is_open()) {
+    while (getline(lee, line)) {
+      u = stoi(line.substr(1, 1));
+      v = stoi(line.substr(4, 1));
+      addEdgeAdjMatrix(u, v);
+    }
+    lee.close(); // Closes the file
+  } else {
+    cout << "Unable to open file";
+  }
+}
+
+void Graph::loadGraphMat(string name, int a) {
+  int b = a;
   adjMatrix = new int[a * b];
   nodes = a;
   for (int i = 0; i < a * b; i++)
