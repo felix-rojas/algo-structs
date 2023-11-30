@@ -5,7 +5,7 @@ Estas actividades son para practicar la implementación de algoritmos y estructu
 ## Ejercicios a corregir
 
 - [x] Lista lineal simple
-- [ ] BST Visit
+- [x] Grafos (actualizado para leer de archivo)
 - [x] Splay Tree Find
 
 
